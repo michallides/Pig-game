@@ -66,23 +66,21 @@ h2 {
 }
 
 .player {
+  position: relative;
   background-color: rgba(255, 255, 255, 0.1);
   flex-basis: 50%;
   padding: 5rem 1rem;
+  transition: all 0.5s;
 }
 
 .player-active {
-  background-color: rgb(255, 255, 255, 0.4);
+  background-color: rgb(255, 255, 255, 0.3);
 }
 
 .score {
   font-size: 8.5rem;
-  color: rgb(40, 110, 150);
+  color: rgb(40, 90, 130);
   margin-block: 4rem 12rem;
-}
-
-.player-active .score {
-  color: rgb(40, 100, 150);
 }
 
 .current-score {
@@ -96,10 +94,6 @@ h2 {
   padding: 1.5rem 4rem;
   margin-inline: auto;
   border-radius: 0.8rem;
-}
-
-.player-active .current-box {
-  background-color: rgb(40, 100, 150);
 }
 
 .btn {
@@ -171,8 +165,29 @@ h2 {
   top: 17.5rem;
 }
 
+/*----------------*/
+/* ADDED WITH JS */
+/*----------------*/
 .hidden {
-  display: none;
+  visibility: hidden;
+}
+
+.player-winner {
+  background-color: rgb(43, 43, 43);
+}
+
+.player-winner h1 {
+  color: rgb(240, 207, 23);
+}
+
+.winner-img-0,
+.winner-img-1 {
+  position: absolute;
+  top: 25rem;
+  left: 50%;
+  transform: translate(-50%);
+  max-width: 15rem;
+  transition: all 3s;
 }
 
 /*----------------*/
