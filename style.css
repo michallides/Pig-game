@@ -142,8 +142,8 @@ h2 {
 }
 
 .roll-dice-btn {
-  background-image: url('img/roll-dice.png');
-  background-repeat: no-repeat;
+  /* background-image: url('img/roll-dice.png');
+  background-repeat: no-repeat; */
   top: 37.5rem;
   right: 50%;
   transform: translate(50%);
@@ -151,6 +151,27 @@ h2 {
 
 .roll-dice-btn:active {
   transform: translate(50%, 5%);
+}
+
+.roll-dice-btn:before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url('img/roll-dice.png');
+  background-repeat: no-repeat;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .hold-btn {
@@ -169,7 +190,17 @@ h2 {
 /* ADDED WITH JS */
 /*----------------*/
 .hidden {
-  visibility: hidden;
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
 .player-winner {
@@ -177,7 +208,13 @@ h2 {
 }
 
 .player-winner h1 {
-  color: rgb(240, 207, 23);
+  color: rgb(240, 210, 20);
+  transition: color 0.5s ease;
+}
+
+.player-winner p {
+  color: rgb(210, 180, 70);
+  transition: color 0.5s ease;
 }
 
 .winner-img-0,
@@ -187,7 +224,12 @@ h2 {
   left: 50%;
   transform: translate(-50%);
   max-width: 15rem;
-  transition: all 3s;
+}
+
+.highlighted {
+  color: rgb(44, 44, 44);
+  background-color: rgba(255, 255, 255, 0.4);
+  text-shadow: 0.1rem 0.1rem 1rem #fff;
 }
 
 /*----------------*/

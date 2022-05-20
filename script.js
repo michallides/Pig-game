@@ -6,7 +6,8 @@ const score0 = document.querySelector('#score-0');
 const score1 = document.querySelector('#score-1');
 const currentScore0 = document.querySelector('#current-score-0');
 const currentScore1 = document.querySelector('#current-score-1');
-const currentBox = document.querySelector('.current-box');
+const currentBox0 = document.querySelector('.current-box-0');
+const currentBox1 = document.querySelector('.current-box-1');
 
 const winnerImg0 = document.querySelector('.winner-img-0');
 const winnerImg1 = document.querySelector('.winner-img-1');
@@ -30,13 +31,17 @@ const init = function () {
   currentScore1.textContent = 0;
 
   diceEl.classList.add('hidden');
-  winnerImg0.classList.add('hidden');
-  winnerImg1.classList.add('hidden');
   player0.classList.add('player-active');
   player1.classList.remove('player-active');
   player0.classList.remove('player-winner');
   player1.classList.remove('player-winner');
-  currentBox.classList.remove('hidden');
+  newGameBtn.classList.remove('highlighted');
+  winnerImg0.classList.add('hidden');
+  winnerImg1.classList.add('hidden');
+  winnerImg0.classList.remove('fade-in');
+  winnerImg1.classList.remove('fade-in');
+  currentBox0.classList.remove('hidden');
+  currentBox1.classList.remove('hidden');
 };
 init();
 
@@ -73,7 +78,7 @@ holdBtn.addEventListener('click', function () {
     document.querySelector(`#score-${playerActive}`).textContent =
       scores[playerActive];
 
-    if (scores[playerActive] >= 20) {
+    if (scores[playerActive] >= 5) {
       playing = false;
       diceEl.classList.add('hidden');
 
@@ -82,12 +87,18 @@ holdBtn.addEventListener('click', function () {
         .classList.add('player-winner');
 
       document
+        .querySelector(`.current-box-${playerActive}`)
+        .classList.add('hidden');
+
+      document
         .querySelector(`.winner-img-${playerActive}`)
         .classList.remove('hidden');
 
       document
-        .querySelector(`.current-box-${playerActive}`)
-        .classList.add('hidden');
+        .querySelector(`.winner-img-${playerActive}`)
+        .classList.add('fade-in');
+
+      newGameBtn.classList.add('highlighted');
     } else {
       switchPlayer();
     }
