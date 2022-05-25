@@ -97,25 +97,22 @@ h2 {
 }
 
 .btn {
-  line-height: 1;
-  padding: 1.2rem 1.5rem;
-  border-radius: 3rem;
-  border: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   font-family: 'Roboto', sans-serif;
   font-size: 1.7rem;
   font-weight: 400;
   text-transform: uppercase;
   color: rgb(58, 58, 58);
   background-color: rgba(255, 255, 255, 0.2);
-  background-position: left;
-  background-origin: content-box;
+  line-height: 1;
+  padding: 0.5rem 1.5rem;
+  border-radius: 3rem;
+  border: none;
   cursor: pointer;
   box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.2);
   transition: all 0.15s;
-}
-
-.btn::first-letter {
-  margin-left: 4.2rem;
 }
 
 .btn:active {
@@ -128,22 +125,11 @@ h2 {
   position: absolute;
 }
 
-.new-game-btn,
-.hold-btn,
-.dice {
-  left: 50%;
-  transform: translate(-50%);
-}
-
 .new-game-btn {
-  background-image: url('img/new-game.png');
-  background-repeat: no-repeat;
   top: 4rem;
 }
 
 .roll-dice-btn {
-  /* background-image: url('img/roll-dice.png');
-  background-repeat: no-repeat; */
   top: 37.5rem;
   right: 50%;
   transform: translate(50%);
@@ -153,30 +139,7 @@ h2 {
   transform: translate(50%, 5%);
 }
 
-.roll-dice-btn:before {
-  content: '';
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-image: url('img/roll-dice.png');
-  background-repeat: no-repeat;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .hold-btn {
-  background-image: url('img/hold.png');
-  background-repeat: no-repeat;
   top: 43.5rem;
 }
 
@@ -184,6 +147,36 @@ h2 {
   width: 7.5rem;
   height: auto;
   top: 17.5rem;
+}
+
+.new-game-btn,
+.hold-btn,
+.dice {
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.new-game-btn:before,
+.roll-dice-btn:before,
+.hold-btn:before {
+  content: '';
+  display: block;
+  width: 3.2rem;
+  height: 3.2rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.new-game-btn:before {
+  background-image: url('img/new-game.png');
+}
+
+.roll-dice-btn:before {
+  background-image: url('img/roll-dice.png');
+}
+
+.hold-btn:before {
+  background-image: url('img/hold.png');
 }
 
 /*----------------*/
@@ -232,6 +225,18 @@ h2 {
   text-shadow: 0.1rem 0.1rem 1rem #fff;
 }
 
+.rotating.new-game-btn:before,
+.rotating.roll-dice-btn:before,
+.rotating.hold-btn:before {
+  transform: rotate(360deg);
+  transition-duration: 0.7s;
+}
+
+.rotating.dice {
+  transform: translate(-50%) rotate(360deg);
+  transition-duration: 0.7s;
+}
+
 /*----------------*/
 /* MEDIA QUERIES */
 /*----------------*/
@@ -259,25 +264,23 @@ h2 {
 
   .btn {
     font-size: 1.4rem;
-    padding: 0.8rem 1.2rem;
-  }
-
-  .btn::first-letter {
-    margin-left: 3.2rem;
-  }
-
-  .new-game-btn {
-    background-image: url('img/new-game-small.png');
+    padding: 0.4rem 1.2rem;
+    gap: 0.8rem;
   }
 
   .roll-dice-btn {
-    background-image: url('img/roll-dice-small.png');
     top: 35rem;
   }
 
   .hold-btn {
-    background-image: url('img/hold-small.png');
     top: 40rem;
+  }
+
+  .new-game-btn:before,
+  .roll-dice-btn:before,
+  .hold-btn:before {
+    width: 2.7rem;
+    height: 2.7rem;
   }
 
   .dice {
@@ -327,6 +330,12 @@ h2 {
   .dice {
     transform: translate(-50%, -50%);
   }
+
+  /* ADDED WITH JS */
+  .rotating.dice {
+    transform: translate(-50%, -50%) rotate(360deg);
+    transition-duration: 0.7s;
+  }
 }
 
 @media screen and (max-width: 33.125em /*530px*/) {
@@ -335,12 +344,8 @@ h2 {
   }
 
   .btn {
-    font-size: 1.2rem;
-    padding: 0.8rem 0.5rem;
-  }
-
-  .btn::first-letter {
-    margin-left: 2.8rem;
+    padding: 0.3rem 0.7rem;
+    gap: 0.5rem;
   }
 
   .dice {
