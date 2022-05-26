@@ -45,6 +45,7 @@ h2,
 p {
   text-align: center;
   margin: 0;
+  transition: all 0.5s ease;
 }
 
 h1 {
@@ -70,7 +71,7 @@ h2 {
   background-color: rgba(255, 255, 255, 0.1);
   flex-basis: 50%;
   padding: 5rem 1rem;
-  transition: all 0.5s;
+  transition: all 0.5s ease;
 }
 
 .player-active {
@@ -94,6 +95,7 @@ h2 {
   padding: 1.5rem 4rem;
   margin-inline: auto;
   border-radius: 0.8rem;
+  transition: all 0.5s ease;
 }
 
 .btn {
@@ -112,11 +114,12 @@ h2 {
   border: none;
   cursor: pointer;
   box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.2);
-  transition: all 0.15s;
+  transition: all 0.5s ease;
 }
 
 .btn:active {
   transform: translate(-50%, 5%);
+  transition-duration: 0.15s;
   box-shadow: 0 0.4rem 1rem rgba(51, 51, 51, 0.2);
 }
 
@@ -165,6 +168,7 @@ h2 {
   height: 3.2rem;
   background-size: contain;
   background-repeat: no-repeat;
+  overflow: hidden;
 }
 
 .new-game-btn:before {
@@ -186,14 +190,12 @@ h2 {
   opacity: 0;
 }
 
-.fade-in {
-  opacity: 1;
-  transition: opacity 0.5s ease;
+.removed {
+  display: none;
 }
 
-.fade-out {
-  opacity: 0;
-  transition: opacity 0.5s ease;
+.visible {
+  opacity: 1;
 }
 
 .player-winner {
@@ -202,21 +204,16 @@ h2 {
 
 .player-winner h1 {
   color: rgb(240, 210, 20);
-  transition: color 0.5s ease;
-}
-
-.player-winner p {
-  color: rgb(210, 180, 70);
-  transition: color 0.5s ease;
 }
 
 .winner-img-0,
 .winner-img-1 {
   position: absolute;
-  top: 25rem;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%);
-  max-width: 15rem;
+  transform: translate(-50%, -50%);
+  max-width: 17rem;
+  transition: all 0.5s ease;
 }
 
 .highlighted {
@@ -287,6 +284,12 @@ h2 {
     width: 6.5rem;
     top: 16rem;
   }
+
+  /* ADDED WITH JS */
+  .winner-img-0,
+  .winner-img-1 {
+    max-width: 14rem;
+  }
 }
 
 @media screen and (max-width: 46.875em /*750px*/) {
@@ -336,6 +339,11 @@ h2 {
     transform: translate(-50%, -50%) rotate(360deg);
     transition-duration: 0.7s;
   }
+
+  .winner-img-0,
+  .winner-img-1 {
+    top: 55%;
+  }
 }
 
 @media screen and (max-width: 33.125em /*530px*/) {
@@ -362,5 +370,11 @@ h2 {
 
   .hold-btn {
     left: 1rem;
+  }
+
+  /* ADDED WITH JS */
+  .winner-img-0,
+  .winner-img-1 {
+    max-width: 12rem;
   }
 }
