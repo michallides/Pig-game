@@ -45,7 +45,6 @@ h2,
 p {
   text-align: center;
   margin: 0;
-  transition: all 0.5s ease;
 }
 
 h1 {
@@ -71,11 +70,18 @@ h2 {
   background-color: rgba(255, 255, 255, 0.1);
   flex-basis: 50%;
   padding: 5rem 1rem;
-  transition: all 0.5s ease;
 }
 
 .player-active {
   background-color: rgb(255, 255, 255, 0.3);
+}
+
+.player-0 {
+  animation: slideFromTop 2s ease-in-out;
+}
+
+.player-1 {
+  animation: slideFromBottom 2s ease-in-out;
 }
 
 .score {
@@ -95,7 +101,6 @@ h2 {
   padding: 1.5rem 4rem;
   margin-inline: auto;
   border-radius: 0.8rem;
-  transition: all 0.5s ease;
 }
 
 .btn {
@@ -114,7 +119,6 @@ h2 {
   border: none;
   cursor: pointer;
   box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.2);
-  transition: all 0.5s ease;
 }
 
 .btn:active {
@@ -150,11 +154,13 @@ h2 {
   width: 7.5rem;
   height: auto;
   top: 17.5rem;
+  left: 50%;
+  transform: translate(-50%);
+  animation: rotate 2s ease-in-out;
 }
 
 .new-game-btn,
-.hold-btn,
-.dice {
+.hold-btn {
   left: 50%;
   transform: translate(-50%);
 }
@@ -183,19 +189,90 @@ h2 {
   background-image: url('img/hold.png');
 }
 
-/*----------------*/
+h1,
+h2,
+p,
+.player,
+.current-box,
+.btn,
+.winner-img-0,
+.winner-img-1 {
+  transition: all 0.5s ease-in-out;
+}
+
+/*--------------------*/
+/* ANIMATIONS */
+/*--------------------*/
+@keyframes slideFromTop {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFromBottom {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%) rotate(360deg);
+  }
+}
+
+@keyframes rotateSmallScreen {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/*-------------------*/
 /* ADDED WITH JS */
-/*----------------*/
+/*-------------------*/
 .hidden {
   opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .removed {
   display: none;
-}
-
-.visible {
-  opacity: 1;
 }
 
 .player-winner {
@@ -213,7 +290,6 @@ h2 {
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 17rem;
-  transition: all 0.5s ease;
 }
 
 .highlighted {
@@ -234,9 +310,9 @@ h2 {
   transition-duration: 0.7s;
 }
 
-/*----------------*/
+/*-------------------*/
 /* MEDIA QUERIES */
-/*----------------*/
+/*-------------------*/
 
 @media screen and (max-width: 60em /*960px*/) {
   h1 {
@@ -302,6 +378,14 @@ h2 {
     flex-basis: 100%;
   }
 
+  .player-0 {
+    animation: slideFromLeft 2s ease-in-out;
+  }
+
+  .player-1 {
+    animation: slideFromRight 2s ease-in-out;
+  }
+
   .score {
     margin-block: 2rem 5rem;
   }
@@ -332,12 +416,12 @@ h2 {
 
   .dice {
     transform: translate(-50%, -50%);
+    animation: rotateSmallScreen 2s ease-in-out;
   }
 
   /* ADDED WITH JS */
   .rotating.dice {
     transform: translate(-50%, -50%) rotate(360deg);
-    transition-duration: 0.7s;
   }
 
   .winner-img-0,
