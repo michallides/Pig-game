@@ -1,6 +1,9 @@
 'use strict';
 
-// GLOBAL VARIABLES
+// ---------------- //
+// GLOBAL VARIABLES //
+// ---------------- //
+
 const diceEl = document.querySelector('.dice');
 const player0 = document.querySelector('.player-0');
 const player1 = document.querySelector('.player-1');
@@ -12,6 +15,7 @@ const currentScore1 = document.querySelector('#current-score-1');
 const currentBox0 = document.querySelector('.current-box-0');
 const currentBox1 = document.querySelector('.current-box-1');
 
+const menu = document.querySelector('.menu');
 const buttons = document.querySelectorAll('.btn');
 const newGameBtn = document.querySelector('.new-game-btn');
 const rollDiceBtn = document.querySelector('.roll-dice-btn');
@@ -23,12 +27,91 @@ const winnerImg1 = document.querySelector('.winner-img-1');
 let winningScore = 5;
 let scores, currentScore, playerActive, playing, executing;
 
-// Hide dice after rotating css animation is done (2s)
-setTimeout(function () {
-  diceEl.classList.add('hidden');
-}, 2000);
+// --------- //
+// FUNCTIONS //
+// --------- //
 
-// STARTING CONDITIONS FUNCTION
+// TRANSITION TO 'Opacity: 0'
+const fadeOut = element => element.classList.add('hidden');
+
+// TRANSITION TO 'Opacity: 1'
+const fadeIn = element => element.classList.remove('hidden');
+
+// DISPLAY: NONE
+const removeElement = element => element.classList.add('removed');
+
+// DISPLAY
+const addElement = element => element.classList.remove('removed');
+
+// ROTATING
+const rotate = element => element.classList.add('rotating');
+
+// REMOVE CLASS 'rotating'
+const removeRotate = element => element.classList.remove('rotating');
+
+// START ANIMATION
+const animate = element => element.classList.add('animated');
+
+// REMOVE CLASS 'animated'
+const removeAnimate = element => element.classList.remove('animated');
+
+// ANIMATIONS ON REFRESH --> player's SLIDE IN, dice ROLL
+const animation = function () {
+  animate(player0);
+  animate(player1);
+  animate(diceEl);
+
+  setTimeout(function () {
+    removeAnimate(player0);
+    removeAnimate(player1);
+    removeAnimate(diceEl);
+  }, 3000);
+};
+
+// DICE CHANGING NUMBERS ON SITE REFRESH  (1-6, 1 is in html, so here 2-6)
+const diceStartShowHide = function () {
+  diceEl.src = 'img/dice-1.svg';
+  const dices = [2, 3, 4, 5, 6];
+  let dicePositionNumber = 0;
+
+  const intervalID = setInterval(function () {
+    if (dicePositionNumber < dices.length) {
+      diceEl.src = `img/dice-${dices[dicePositionNumber]}.svg`;
+      dicePositionNumber++;
+    } else {
+      // Hide dice after rotating css animation is done (2.5s), but here only 2s (this timing is visually better)
+      fadeOut(diceEl);
+      clearInterval(intervalID);
+    }
+  }, 2000 / dices.length);
+};
+
+// HIDE BTNS ON SITE REFRESH, THEN FADE IN
+const showBtnsOnRefresh = function () {
+  fadeOut(menu);
+  removeElement(menu);
+  buttons.forEach(btn => {
+    fadeOut(btn);
+    removeElement(btn);
+  });
+
+  // First add element, but still with opacity 0
+  setTimeout(function () {
+    addElement(menu);
+    buttons.forEach(btn => {
+      addElement(btn);
+    });
+  }, 1500);
+  // Then transition to opacity 1
+  setTimeout(function () {
+    fadeIn(menu);
+    buttons.forEach(btn => {
+      fadeIn(btn);
+    });
+  }, 2500);
+};
+
+// STARTING CONDITIONS
 const init = function () {
   scores = [0, 0];
   currentScore = 0;
@@ -46,26 +129,24 @@ const init = function () {
   player0.classList.remove('player-winner');
   player1.classList.remove('player-winner');
 
-  score0.classList.remove('hidden');
-  score1.classList.remove('hidden');
-  currentBox0.classList.remove('hidden');
-  currentBox1.classList.remove('hidden');
+  fadeIn(score0);
+  fadeIn(score1);
+  fadeIn(currentBox0);
+  fadeIn(currentBox1);
 
   newGameBtn.classList.remove('highlighted');
-  rollDiceBtn.classList.remove('hidden');
-  holdBtn.classList.remove('hidden');
 
-  winnerImg0.classList.add('hidden');
-  winnerImg1.classList.add('hidden');
+  // Fade out
+  fadeOut(winnerImg0);
+  fadeOut(winnerImg1);
   setTimeout(function () {
-    winnerImg0.classList.add('removed');
-    winnerImg1.classList.add('removed');
+    // Then remove
+    removeElement(winnerImg0);
+    removeElement(winnerImg1);
   }, 500);
 };
 
-init();
-
-// SWITCH PLAYER FUNCTION
+// SWITCH PLAYER
 const switchPlayer = function () {
   document.querySelector(`#current-score-${playerActive}`).textContent = 0;
   currentScore = 0;
@@ -74,16 +155,26 @@ const switchPlayer = function () {
   player1.classList.toggle('player-active');
 };
 
+// --------------- //
+// FUNCTIONALITIES //
+// --------------- //
+
+// INITIAL
+animation();
+diceStartShowHide();
+showBtnsOnRefresh();
+init();
+
 // ROLL DICE BTN FUNCTIONALITY
 rollDiceBtn.addEventListener('click', function () {
   if (playing && !executing) {
     const diceNum = Math.trunc(Math.random() * 6) + 1;
-    diceEl.classList.remove('hidden');
-    diceEl.classList.add('rotating');
+    fadeIn(diceEl);
+    rotate(diceEl);
     diceEl.src = 'img/dice-0.svg';
 
     setTimeout(function () {
-      diceEl.classList.remove('rotating');
+      removeRotate(diceEl);
       diceEl.src = `img/dice-${diceNum}.svg`;
     }, 700);
 
@@ -108,11 +199,10 @@ holdBtn.addEventListener('click', function () {
 
     if (scores[playerActive] >= winningScore) {
       playing = false;
-      diceEl.classList.add('hidden');
-      holdBtn.classList.add('hidden');
-      rollDiceBtn.classList.add('hidden');
-
-      scoreActive.classList.add('hidden');
+      fadeOut(diceEl);
+      fadeOut(holdBtn);
+      fadeOut(rollDiceBtn);
+      fadeOut(scoreActive);
 
       newGameBtn.classList.add('highlighted');
 
@@ -120,15 +210,14 @@ holdBtn.addEventListener('click', function () {
         .querySelector(`.player-${playerActive}`)
         .classList.add('player-winner');
 
-      document
-        .querySelector(`.current-box-${playerActive}`)
-        .classList.add('hidden');
+      fadeOut(document.querySelector(`.current-box-${playerActive}`));
 
-      winnerImg.classList.remove('removed');
-
+      // First add img, but still with opacity 0
+      addElement(winnerImg);
+      // Then transition to opacity 1
       // No time, because 'hidden' has transition-duratinon in CSS
       setTimeout(function () {
-        winnerImg.classList.remove('hidden');
+        fadeIn(winnerImg);
       });
     } else {
       switchPlayer();
@@ -139,7 +228,7 @@ holdBtn.addEventListener('click', function () {
 // NEW GAME BTN FUNCTIONALITY
 newGameBtn.addEventListener('click', function () {
   if (!executing) {
-    diceEl.classList.add('hidden');
+    fadeOut(diceEl);
     init();
   }
 });
@@ -149,12 +238,17 @@ buttons.forEach(btn => {
   btn.addEventListener('click', function () {
     if (!executing) {
       executing = true;
-      btn.classList.add('rotating');
+      rotate(btn);
 
       setTimeout(function () {
-        btn.classList.remove('rotating');
+        removeRotate(btn);
         executing = false;
       }, 700);
     }
   });
 });
+
+// MENU FUNCTIONALITY
+// menu.addEventListener('click', function () {
+//   player0;
+// });

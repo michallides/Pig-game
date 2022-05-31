@@ -76,14 +76,6 @@ h2 {
   background-color: rgb(255, 255, 255, 0.3);
 }
 
-.player-0 {
-  animation: slideFromTop 2s ease-in-out;
-}
-
-.player-1 {
-  animation: slideFromBottom 2s ease-in-out;
-}
-
 .score {
   font-size: 8.5rem;
   color: rgb(40, 90, 130);
@@ -156,7 +148,6 @@ h2 {
   top: 17.5rem;
   left: 50%;
   transform: translate(-50%);
-  animation: rotate 2s ease-in-out;
 }
 
 .new-game-btn,
@@ -196,8 +187,84 @@ p,
 .current-box,
 .btn,
 .winner-img-0,
-.winner-img-1 {
+.winner-img-1,
+.menu {
   transition: all 0.5s ease-in-out;
+}
+
+.menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  top: 2.5rem;
+  left: 2.5rem;
+  cursor: pointer;
+}
+
+.menu-line {
+  width: 2.5rem;
+  height: 0.2rem;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+/*-------------------*/
+/* ADDED WITH JS */
+/*-------------------*/
+.hidden {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.removed {
+  display: none;
+}
+
+.player-winner {
+  background-color: rgb(43, 43, 43);
+}
+
+.player-winner h1 {
+  color: rgb(240, 210, 20);
+}
+
+.winner-img-0,
+.winner-img-1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 17rem;
+}
+
+.highlighted {
+  color: rgb(44, 44, 44);
+  background-color: rgba(255, 255, 255, 0.4);
+  text-shadow: 0.1rem 0.1rem 1rem rgb(255, 255, 255);
+}
+
+.rotating.new-game-btn:before,
+.rotating.roll-dice-btn:before,
+.rotating.hold-btn:before {
+  transform: rotate(360deg);
+  transition-duration: 0.7s;
+}
+
+.rotating.dice {
+  transform: translate(-50%) rotate(360deg);
+  transition-duration: 0.7s;
+}
+
+.player-0.animated {
+  animation: slideFromTop 2.5s ease-in-out;
+}
+
+.player-1.animated {
+  animation: slideFromBottom 2.5s ease-in-out;
+}
+
+.dice.animated {
+  animation: rotate 2.5s ease-in-out;
 }
 
 /*--------------------*/
@@ -261,53 +328,6 @@ p,
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
-}
-
-/*-------------------*/
-/* ADDED WITH JS */
-/*-------------------*/
-.hidden {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.removed {
-  display: none;
-}
-
-.player-winner {
-  background-color: rgb(43, 43, 43);
-}
-
-.player-winner h1 {
-  color: rgb(240, 210, 20);
-}
-
-.winner-img-0,
-.winner-img-1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 17rem;
-}
-
-.highlighted {
-  color: rgb(44, 44, 44);
-  background-color: rgba(255, 255, 255, 0.4);
-  text-shadow: 0.1rem 0.1rem 1rem #fff;
-}
-
-.rotating.new-game-btn:before,
-.rotating.roll-dice-btn:before,
-.rotating.hold-btn:before {
-  transform: rotate(360deg);
-  transition-duration: 0.7s;
-}
-
-.rotating.dice {
-  transform: translate(-50%) rotate(360deg);
-  transition-duration: 0.7s;
 }
 
 /*-------------------*/
@@ -378,14 +398,6 @@ p,
     flex-basis: 100%;
   }
 
-  .player-0 {
-    animation: slideFromLeft 2s ease-in-out;
-  }
-
-  .player-1 {
-    animation: slideFromRight 2s ease-in-out;
-  }
-
   .score {
     margin-block: 2rem 5rem;
   }
@@ -416,7 +428,6 @@ p,
 
   .dice {
     transform: translate(-50%, -50%);
-    animation: rotateSmallScreen 2s ease-in-out;
   }
 
   /* ADDED WITH JS */
@@ -427,6 +438,18 @@ p,
   .winner-img-0,
   .winner-img-1 {
     top: 55%;
+  }
+
+  .player-0.animated {
+    animation: slideFromLeft 2.5s ease-in-out;
+  }
+
+  .player-1.animated {
+    animation: slideFromRight 2.5s ease-in-out;
+  }
+
+  .dice.animated {
+    animation: rotateSmallScreen 2.5s ease-in-out;
   }
 }
 
