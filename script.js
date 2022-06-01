@@ -1,8 +1,8 @@
 'use strict';
 
-// ---------------- //
+// -------------------------------------------------------------------------------------//
 // GLOBAL VARIABLES //
-// ---------------- //
+// -------------------------------------------------------------------------------------//
 
 const diceEl = document.querySelector('.dice');
 const player0 = document.querySelector('.player-0');
@@ -27,9 +27,9 @@ const winnerImg1 = document.querySelector('.winner-img-1');
 let winningScore = 5;
 let scores, currentScore, playerActive, playing, executing;
 
-// --------- //
+// -------------------------------------------------------------------------------------//
 // FUNCTIONS //
-// --------- //
+// -------------------------------------------------------------------------------------//
 
 // TRANSITION TO 'Opacity: 0'
 const fadeOut = element => element.classList.add('hidden');
@@ -55,7 +55,7 @@ const animate = element => element.classList.add('animated');
 // REMOVE CLASS 'animated'
 const removeAnimate = element => element.classList.remove('animated');
 
-// ANIMATIONS ON REFRESH --> player's SLIDE IN, dice ROLL
+// ANIMATIONS ON REFRESH --> players SLIDE IN, dice ROLL
 const animation = function () {
   animate(player0);
   animate(player1);
@@ -95,15 +95,17 @@ const showBtnsOnRefresh = function () {
     removeElement(btn);
   });
 
-  // First add element, but still with opacity 0
+  // First add element, but still with opacity 0. Set 'playing = false' to make btns inactive while invisible
   setTimeout(function () {
+    playing = false;
     addElement(menu);
     buttons.forEach(btn => {
       addElement(btn);
     });
-  }, 1500);
-  // Then transition to opacity 1
+  }, 2000);
+  // Then transition to opacity 1. Set 'playing = true'
   setTimeout(function () {
+    playing = true;
     fadeIn(menu);
     buttons.forEach(btn => {
       fadeIn(btn);
@@ -155,9 +157,9 @@ const switchPlayer = function () {
   player1.classList.toggle('player-active');
 };
 
-// --------------- //
+// -------------------------------------------------------------------------------------//
 // FUNCTIONALITIES //
-// --------------- //
+// -------------------------------------------------------------------------------------//
 
 // INITIAL
 animation();
