@@ -242,7 +242,7 @@ p,
   background-color: rgba(255, 255, 255, 0.4);
   text-shadow: 0.1rem 0.1rem 1rem rgb(255, 255, 255);
 }
-
+/* !----------------------------------------------------------- */
 .rotating.new-game-btn:before,
 .rotating.roll-dice-btn:before,
 .rotating.hold-btn:before {
@@ -250,21 +250,35 @@ p,
   transition-duration: 0.7s;
 }
 
-.rotating.dice {
+.dice.rotating-click {
   transform: translate(-50%) rotate(360deg);
   transition-duration: 0.7s;
 }
 
-.player-0.animated {
+.dice.rotating-start {
+  transform: translate(-50%) rotate(360deg);
+  transition-duration: 2.5s;
+  transition-timing-function: ease-in-out;
+}
+
+.player-0.slide-from {
   animation: slideFromTop 2.5s ease-in-out;
 }
 
-.player-1.animated {
+.player-1.slide-from {
   animation: slideFromBottom 2.5s ease-in-out;
 }
 
-.dice.animated {
+/* .dice.rotate {
   animation: rotate 2.5s ease-in-out;
+} */
+
+.player-0.slide-to {
+  animation: slideToTop 2.5s ease-in-out;
+}
+
+.player-1.slide-to {
+  animation: slideToBottom 2.5s ease-in-out;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -310,7 +324,7 @@ p,
   }
 }
 
-@keyframes rotate {
+/* @keyframes rotate {
   0% {
     transform: translate(-50%) rotate(0deg);
   }
@@ -328,7 +342,7 @@ p,
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
-}
+} */
 
 /*-------------------------------------------------------------------------*/
 /* MEDIA QUERIES */
@@ -435,7 +449,12 @@ p,
   /*----------------*/
   /* ADDED WITH JS */
   /*----------------*/
-  .rotating.dice {
+  /* !----------------------------------------------------------- */
+  .dice.rotating-click {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+
+  .dice.rotating-start {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 
@@ -444,17 +463,18 @@ p,
     top: 55%;
   }
 
-  .player-0.animated {
+  .player-0.slide-from {
     animation: slideFromLeft 2.5s ease-in-out;
   }
 
-  .player-1.animated {
+  .player-1.slide-from {
     animation: slideFromRight 2.5s ease-in-out;
   }
 
-  .dice.animated {
+  /* .dice.animated-start {
     animation: rotateSmallScreen 2.5s ease-in-out;
-  }
+ 
+  } */
 }
 
 @media screen and (max-width: 33.125em /*530px*/) {

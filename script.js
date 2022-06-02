@@ -43,34 +43,36 @@ const removeElement = element => element.classList.add('removed');
 // DISPLAY
 const addElement = element => element.classList.remove('removed');
 
-// ROTATING
-const rotate = element => element.classList.add('rotating');
+// ROTATING 360deg
+const rotate = element => element.classList.add('rotating-click');
 
 // REMOVE CLASS 'rotating'
-const removeRotate = element => element.classList.remove('rotating');
+const removeRotate = element => element.classList.remove('rotating-click');
 
-// START ANIMATION
-const animate = element => element.classList.add('animated');
+// SLIDE AWAY FROM PAGE
+const slideFrom = element => element.classList.add('slide-from');
 
-// REMOVE CLASS 'animated'
-const removeAnimate = element => element.classList.remove('animated');
+// REMOVE CLASS 'slide-from'
+const removeSlideFrom = element => element.classList.remove('slide-from');
 
-// ANIMATIONS ON REFRESH --> players SLIDE IN, dice ROLL
+// ANIMATIONS PAGE START --> players SLIDE IN, dice ROLL
 const animation = function () {
-  animate(player0);
-  animate(player1);
-  animate(diceEl);
+  slideFrom(player0);
+  slideFrom(player1);
+  diceEl.classList.add('rotating-start');
 
   setTimeout(function () {
-    removeAnimate(player0);
-    removeAnimate(player1);
-    removeAnimate(diceEl);
+    removeSlideFrom(player0);
+    removeSlideFrom(player1);
+    diceEl.classList.remove('rotating-start');
   }, 3000);
 };
 
-// DICE CHANGING NUMBERS ON SITE REFRESH  (1-6, 1 is in html, so here 2-6)
+// DICE CHANGING NUMBERS ON SITE REFRESH, THEN FADE OUT
 const diceStartShowHide = function () {
+  // Number 1
   diceEl.src = 'img/dice-1.svg';
+  // Numbers 2 - 6
   const dices = [2, 3, 4, 5, 6];
   let dicePositionNumber = 0;
 
@@ -113,7 +115,7 @@ const showBtnsOnRefresh = function () {
   }, 2500);
 };
 
-// STARTING CONDITIONS
+// STARTING CONDITIONS, REFRESHED CONDITIONS
 const init = function () {
   scores = [0, 0];
   currentScore = 0;
@@ -232,6 +234,10 @@ newGameBtn.addEventListener('click', function () {
   if (!executing) {
     fadeOut(diceEl);
     init();
+    // Btns 'fadeIn' has to be here and not in 'init()', because it is used in 'showBtnsOnRefresh()' with delay and these 2 functions are both executed at site start. It would cause bug
+    buttons.forEach(btn => {
+      fadeIn(btn);
+    });
   }
 });
 
