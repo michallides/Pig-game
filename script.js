@@ -15,7 +15,7 @@ const currentScore1 = document.querySelector('#current-score-1');
 const currentBox0 = document.querySelector('.current-box-0');
 const currentBox1 = document.querySelector('.current-box-1');
 
-const menu = document.querySelector('.menu');
+const settingsIcon = document.querySelector('.settings-icon');
 const buttons = document.querySelectorAll('.btn');
 const newGameBtn = document.querySelector('.new-game-btn');
 const rollDiceBtn = document.querySelector('.roll-dice-btn');
@@ -23,6 +23,9 @@ const holdBtn = document.querySelector('.hold-btn');
 
 const winnerImg0 = document.querySelector('.winner-img-0');
 const winnerImg1 = document.querySelector('.winner-img-1');
+
+// On this width, sections change their layout from right and left to top and bottom respectively --> 750px
+const mediaQueryList = window.matchMedia('(max-width: 46.875em)');
 
 let winningScore = 5;
 let scores, currentScore, playerActive, playing, executing;
@@ -43,76 +46,141 @@ const removeElement = element => element.classList.add('removed');
 // DISPLAY
 const addElement = element => element.classList.remove('removed');
 
-// ROTATING 360deg
-const rotate = element => element.classList.add('rotating-click');
+// ROTATE 360deg
+const rotate = element => element.classList.add('rotating');
 
 // REMOVE CLASS 'rotating'
-const removeRotate = element => element.classList.remove('rotating-click');
+const removeRotate = element => element.classList.remove('rotating');
 
-// SLIDE AWAY FROM PAGE
-const slideFrom = element => element.classList.add('slide-from');
+// SLIDE FROM TOP
+const slideFromTop = element => element.classList.add('slide-from-top');
 
-// REMOVE CLASS 'slide-from'
-const removeSlideFrom = element => element.classList.remove('slide-from');
+// REMOVE CLASS 'slide-from-top'
+const removeSlideFromTop = element =>
+  element.classList.remove('slide-from-top');
 
-// ANIMATIONS PAGE START --> players SLIDE IN, dice ROLL
-const animation = function () {
-  slideFrom(player0);
-  slideFrom(player1);
-  diceEl.classList.add('rotating-start');
+// SLIDE FROM BOTTOM
+const slideFromBottom = element => element.classList.add('slide-from-bottom');
 
-  setTimeout(function () {
-    removeSlideFrom(player0);
-    removeSlideFrom(player1);
-    diceEl.classList.remove('rotating-start');
-  }, 3000);
-};
+// REMOVE CLASS 'slide-from-bottom'
+const removeSlideFromBottom = element =>
+  element.classList.remove('slide-from-bottom');
 
-// DICE CHANGING NUMBERS ON SITE REFRESH, THEN FADE OUT
-const diceStartShowHide = function () {
-  // Number 1
-  diceEl.src = 'img/dice-1.svg';
-  // Numbers 2 - 6
-  const dices = [2, 3, 4, 5, 6];
-  let dicePositionNumber = 0;
+// SLIDE FROM LEFT
+const slideFromLeft = element => element.classList.add('slide-from-left');
 
-  const intervalID = setInterval(function () {
-    if (dicePositionNumber < dices.length) {
-      diceEl.src = `img/dice-${dices[dicePositionNumber]}.svg`;
-      dicePositionNumber++;
+// REMOVE CLASS 'slide-from-left'
+const removeSlideFromLeft = element =>
+  element.classList.remove('slide-from-left');
+
+// SLIDE FROM RIGHT
+const slideFromRight = element => element.classList.add('slide-from-right');
+
+// REMOVE CLASS 'slide-from-right'
+const removeSlideFromRight = element =>
+  element.classList.remove('slide-from-right');
+
+// SLIDE TO TOP
+const slideToTop = element => element.classList.add('slide-to-top');
+
+// REMOVE CLASS 'slide-to-top'
+const removeSlideToTop = element => element.classList.remove('slide-to-top');
+
+// SLIDE TO BOTTOM
+const slideToBottom = element => element.classList.add('slide-to-bottom');
+
+// REMOVE CLASS 'slide-to-bottom'
+const removeSlideToBottom = element =>
+  element.classList.remove('slide-to-bottom');
+
+// SLIDE TO LEFT
+const slideToLeft = element => element.classList.add('slide-to-left');
+
+// REMOVE CLASS 'slide-to-left'
+const removeSlideToLeft = element => element.classList.remove('slide-to-left');
+
+// SLIDE TO RIGHT
+const slideToRight = element => element.classList.add('slide-to-right');
+
+// REMOVE CLASS 'slide-to-right'
+const removeSlideToRight = element =>
+  element.classList.remove('slide-to-right');
+
+// FUNCTION WITH ALL FUNCTIONS USED ON PAGE START
+const pageStart = function () {
+  // PLAYER'S SECTIONS SLIDE IN ON PAGE START
+  const sectionStartSlide = function () {
+    if (mediaQueryList.matches) {
+      slideFromLeft(player0);
+      slideFromRight(player1);
+
+      setTimeout(function () {
+        removeSlideFromLeft(player0);
+        removeSlideFromRight(player1);
+      }, 3000);
     } else {
-      // Hide dice after rotating css animation is done (2.5s), but here only 2s (this timing is visually better)
-      fadeOut(diceEl);
-      clearInterval(intervalID);
+      slideFromTop(player0);
+      slideFromBottom(player1);
+
+      setTimeout(function () {
+        removeSlideFromTop(player0);
+        removeSlideFromBottom(player1);
+      }, 3000);
     }
-  }, 2000 / dices.length);
-};
+  };
 
-// HIDE BTNS ON SITE REFRESH, THEN FADE IN
-const showBtnsOnRefresh = function () {
-  fadeOut(menu);
-  removeElement(menu);
-  buttons.forEach(btn => {
-    fadeOut(btn);
-    removeElement(btn);
-  });
+  // DICE ROTATE AND CHANGE NUMBERS ON PAGE START, THEN FADE OUT
+  const diceStartRollHide = function () {
+    diceEl.classList.add('rotating-start');
+    // Number 1
+    diceEl.src = 'img/dice-1.svg';
+    // Numbers 2 - 6
+    const dices = [2, 3, 4, 5, 6];
+    let dicePositionNumber = 0;
 
-  // First add element, but still with opacity 0. Set 'playing = false' to make btns inactive while invisible
-  setTimeout(function () {
-    playing = false;
-    addElement(menu);
+    const intervalID = setInterval(function () {
+      if (dicePositionNumber < dices.length) {
+        diceEl.src = `img/dice-${dices[dicePositionNumber]}.svg`;
+        dicePositionNumber++;
+      } else {
+        // Hide dice after rotating css animation is done (2.5s), but here only 2s (this timing is visually better)
+        fadeOut(diceEl);
+        diceEl.classList.remove('rotating-start');
+        clearInterval(intervalID);
+      }
+    }, 2000 / dices.length);
+  };
+
+  // HIDE BTNS ON PAGE START, THEN FADE IN
+  const showBtnsOnRefresh = function () {
+    fadeOut(settingsIcon);
+    removeElement(settingsIcon);
     buttons.forEach(btn => {
-      addElement(btn);
+      fadeOut(btn);
+      removeElement(btn);
     });
-  }, 2000);
-  // Then transition to opacity 1. Set 'playing = true'
-  setTimeout(function () {
-    playing = true;
-    fadeIn(menu);
-    buttons.forEach(btn => {
-      fadeIn(btn);
-    });
-  }, 2500);
+
+    // First add element, but still with opacity 0. Set 'playing = false' to make btns inactive while invisible
+    setTimeout(function () {
+      playing = false;
+      addElement(settingsIcon);
+      buttons.forEach(btn => {
+        addElement(btn);
+      });
+    }, 2000);
+    // Then transition to opacity 1. Set 'playing = true'
+    setTimeout(function () {
+      playing = true;
+      fadeIn(settingsIcon);
+      buttons.forEach(btn => {
+        fadeIn(btn);
+      });
+    }, 2500);
+  };
+
+  sectionStartSlide();
+  diceStartRollHide();
+  showBtnsOnRefresh();
 };
 
 // STARTING CONDITIONS, REFRESHED CONDITIONS
@@ -139,15 +207,6 @@ const init = function () {
   fadeIn(currentBox1);
 
   newGameBtn.classList.remove('highlighted');
-
-  // Fade out
-  fadeOut(winnerImg0);
-  fadeOut(winnerImg1);
-  setTimeout(function () {
-    // Then remove
-    removeElement(winnerImg0);
-    removeElement(winnerImg1);
-  }, 500);
 };
 
 // SWITCH PLAYER
@@ -164,9 +223,7 @@ const switchPlayer = function () {
 // -------------------------------------------------------------------------------------//
 
 // INITIAL
-animation();
-diceStartShowHide();
-showBtnsOnRefresh();
+pageStart();
 init();
 
 // ROLL DICE BTN FUNCTIONALITY
@@ -232,8 +289,16 @@ holdBtn.addEventListener('click', function () {
 // NEW GAME BTN FUNCTIONALITY
 newGameBtn.addEventListener('click', function () {
   if (!executing) {
-    fadeOut(diceEl);
     init();
+
+    fadeOut(diceEl);
+    fadeOut(winnerImg0);
+    fadeOut(winnerImg1);
+    setTimeout(function () {
+      removeElement(winnerImg0);
+      removeElement(winnerImg1);
+    }, 500);
+
     // Btns 'fadeIn' has to be here and not in 'init()', because it is used in 'showBtnsOnRefresh()' with delay and these 2 functions are both executed at site start. It would cause bug
     buttons.forEach(btn => {
       fadeIn(btn);
@@ -256,7 +321,27 @@ buttons.forEach(btn => {
   });
 });
 
-// MENU FUNCTIONALITY
-// menu.addEventListener('click', function () {
-//   player0;
-// });
+// SETTINGS FUNCTIONALITY
+settingsIcon.addEventListener('click', function () {
+  if (mediaQueryList.matches) {
+    slideToTop(player0);
+    slideToBottom(player1);
+
+    // setTimeout(function () {
+    //   removeSlideToTop(player0);
+    //   removeSlideToBottom(player1);
+    //   fadeOut(player0);
+    //   fadeOut(player1);
+    // }, 3000);
+  } else {
+    slideToLeft(player0);
+    slideToRight(player1);
+
+    // setTimeout(function () {
+    //   removeSlideToLeft(player0);
+    //   removeSlideToRight(player1);
+    //   fadeOut(player0);
+    //   fadeOut(player1);
+    // }, 3000);
+  }
+});

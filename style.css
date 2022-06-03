@@ -188,11 +188,11 @@ p,
 .btn,
 .winner-img-0,
 .winner-img-1,
-.menu {
+.settings-icon {
   transition: all 0.5s ease-in-out;
 }
 
-.menu {
+.settings-icon {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -202,7 +202,7 @@ p,
   cursor: pointer;
 }
 
-.menu-line {
+.settings-icon-line {
   width: 2.5rem;
   height: 0.2rem;
   background-color: rgba(255, 255, 255, 0.7);
@@ -242,7 +242,7 @@ p,
   background-color: rgba(255, 255, 255, 0.4);
   text-shadow: 0.1rem 0.1rem 1rem rgb(255, 255, 255);
 }
-/* !----------------------------------------------------------- */
+
 .rotating.new-game-btn:before,
 .rotating.roll-dice-btn:before,
 .rotating.hold-btn:before {
@@ -250,7 +250,7 @@ p,
   transition-duration: 0.7s;
 }
 
-.dice.rotating-click {
+.dice.rotating {
   transform: translate(-50%) rotate(360deg);
   transition-duration: 0.7s;
 }
@@ -261,24 +261,47 @@ p,
   transition-timing-function: ease-in-out;
 }
 
-.player-0.slide-from {
+.slide-from-top {
   animation: slideFromTop 2.5s ease-in-out;
 }
 
-.player-1.slide-from {
+.slide-from-bottom {
   animation: slideFromBottom 2.5s ease-in-out;
 }
 
-/* .dice.rotate {
-  animation: rotate 2.5s ease-in-out;
-} */
+.slide-from-left {
+  animation: slideFromLeft 2.5s ease-in-out;
+}
 
-.player-0.slide-to {
+.slide-from-right {
+  animation: slideFromRight 2.5s ease-in-out;
+}
+
+.slide-to-top {
   animation: slideToTop 2.5s ease-in-out;
 }
 
-.player-1.slide-to {
+.slide-to-bottom {
   animation: slideToBottom 2.5s ease-in-out;
+}
+
+.slide-to-left {
+  animation: slideToLeft 2.5s ease-in-out;
+}
+
+.slide-to-right {
+  animation: slideToRight 2.5s ease-in-out;
+}
+
+.slide-from-top,
+.slide-from-bottom,
+.slide-from-left,
+.slide-from-right,
+.slide-to-top,
+.slide-to-bottom,
+.slide-to-left,
+.slide-to-right {
+  animation-fill-mode: forwards;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -310,7 +333,7 @@ p,
   }
 
   100% {
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
@@ -320,29 +343,49 @@ p,
   }
 
   100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideToTop {
+  0% {
     transform: translateY(0);
   }
-}
-
-/* @keyframes rotate {
-  0% {
-    transform: translate(-50%) rotate(0deg);
-  }
 
   100% {
-    transform: translate(-50%) rotate(360deg);
+    transform: translateY(-100%);
   }
 }
 
-@keyframes rotateSmallScreen {
+@keyframes slideToBottom {
   0% {
-    transform: translate(-50%, -50%) rotate(0deg);
+    transform: translateY(0);
   }
 
   100% {
-    transform: translate(-50%, -50%) rotate(360deg);
+    transform: translateY(100%);
   }
-} */
+}
+
+@keyframes slideToLeft {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideToRight {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
 
 /*-------------------------------------------------------------------------*/
 /* MEDIA QUERIES */
@@ -449,8 +492,7 @@ p,
   /*----------------*/
   /* ADDED WITH JS */
   /*----------------*/
-  /* !----------------------------------------------------------- */
-  .dice.rotating-click {
+  .dice.rotating-roll {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 
@@ -462,19 +504,6 @@ p,
   .winner-img-1 {
     top: 55%;
   }
-
-  .player-0.slide-from {
-    animation: slideFromLeft 2.5s ease-in-out;
-  }
-
-  .player-1.slide-from {
-    animation: slideFromRight 2.5s ease-in-out;
-  }
-
-  /* .dice.animated-start {
-    animation: rotateSmallScreen 2.5s ease-in-out;
- 
-  } */
 }
 
 @media screen and (max-width: 33.125em /*530px*/) {
