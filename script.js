@@ -24,6 +24,8 @@ const holdBtn = document.querySelector('.hold-btn');
 const winnerImg0 = document.querySelector('.winner-img-0');
 const winnerImg1 = document.querySelector('.winner-img-1');
 
+const settingsIconsLines = document.querySelectorAll('.settings-icon-line');
+
 // On this width, sections change their layout from right and left to top and bottom respectively --> 750px
 const mediaQueryList = window.matchMedia('(max-width: 46.875em)');
 
@@ -55,7 +57,7 @@ const removeRotate = element => element.classList.remove('rotating');
 // SLIDE FROM TOP
 const slideFromTop = element => element.classList.add('slide-from-top');
 
-// REMOVE CLASS 'slide-from-top'
+// REMOVE CLASS 'slide-from-top's
 const removeSlideFromTop = element =>
   element.classList.remove('slide-from-top');
 
@@ -105,6 +107,14 @@ const slideToRight = element => element.classList.add('slide-to-right');
 // REMOVE CLASS 'slide-to-right'
 const removeSlideToRight = element =>
   element.classList.remove('slide-to-right');
+
+// TRANSITION DURATION
+const transitionDuration = (element, duration) =>
+  (element.style.transitionDuration = `${duration}s`);
+
+// ANIMATION DURATION
+const animationDuration = (element, duration) =>
+  (element.style.animationDuration = `${duration}s`);
 
 // FUNCTION WITH ALL FUNCTIONS USED ON PAGE START
 const pageStart = function () {
@@ -323,25 +333,59 @@ buttons.forEach(btn => {
 
 // SETTINGS FUNCTIONALITY
 settingsIcon.addEventListener('click', function () {
-  if (mediaQueryList.matches) {
-    slideToTop(player0);
-    slideToBottom(player1);
+  let settingsOpened = true;
 
-    // setTimeout(function () {
-    //   removeSlideToTop(player0);
-    //   removeSlideToBottom(player1);
-    //   fadeOut(player0);
-    //   fadeOut(player1);
-    // }, 3000);
-  } else {
-    slideToLeft(player0);
-    slideToRight(player1);
+  if (settingsOpened) {
+    animationDuration(player0, 1);
+    animationDuration(player1, 1);
+    transitionDuration(player0, 0);
+    transitionDuration(player1, 0);
 
-    // setTimeout(function () {
-    //   removeSlideToLeft(player0);
-    //   removeSlideToRight(player1);
-    //   fadeOut(player0);
-    //   fadeOut(player1);
-    // }, 3000);
+    buttons.forEach(btn => {
+      fadeOut(btn);
+
+      setTimeout(function () {
+        buttons.forEach(btn => {
+          removeElement(btn);
+        }, 500);
+      });
+    });
+
+    fadeOut(settingsIcon);
+
+    setTimeout(function () {
+      removeElement(settingsIcon);
+      settingsIconsLines.forEach(line => line.classList.add('closed'));
+    }, 500);
+
+    setTimeout(function () {
+      addElement(settingsIcon);
+    }, 1000);
+
+    setTimeout(function () {
+      fadeIn(settingsIcon);
+    }, 1100);
+
+    if (mediaQueryList.matches) {
+      slideToTop(player0);
+      slideToBottom(player1);
+
+      setTimeout(function () {
+        fadeOut(player0);
+        fadeOut(player1);
+        removeSlideToTop(player0);
+        removeSlideToBottom(player1);
+      }, 2000);
+    } else {
+      slideToLeft(player0);
+      slideToRight(player1);
+
+      setTimeout(function () {
+        fadeOut(player0);
+        fadeOut(player1);
+        removeSlideToLeft(player0);
+        removeSlideToRight(player1);
+      }, 2000);
+    }
   }
 });
