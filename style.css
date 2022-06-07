@@ -228,6 +228,11 @@ p,
   transition: opacity 0.5s ease-in-out;
 }
 
+.player.quick-sliding {
+  transition-duration: 0s;
+  animation-duration: 1s;
+}
+
 .removed {
   display: none;
 }
@@ -274,35 +279,35 @@ p,
 }
 
 .slide-from-top {
-  animation: slideFromTop 2.5s ease-in-out;
+  animation: slideFromTop;
 }
 
 .slide-from-bottom {
-  animation: slideFromBottom 2.5s ease-in-out;
+  animation: slideFromBottom;
 }
 
 .slide-from-left {
-  animation: slideFromLeft 2.5s ease-in-out;
+  animation: slideFromLeft;
 }
 
 .slide-from-right {
-  animation: slideFromRight 2.5s ease-in-out;
+  animation: slideFromRight;
 }
 
 .slide-to-top {
-  animation: slideToTop 2.5s ease-in-out;
+  animation: slideToTop;
 }
 
 .slide-to-bottom {
-  animation: slideToBottom 2.5s ease-in-out;
+  animation: slideToBottom;
 }
 
 .slide-to-left {
-  animation: slideToLeft 2.5s ease-in-out;
+  animation: slideToLeft;
 }
 
 .slide-to-right {
-  animation: slideToRight 2.5s ease-in-out;
+  animation: slideToRight;
 }
 
 .slide-from-top,
@@ -314,6 +319,8 @@ p,
 .slide-to-left,
 .slide-to-right {
   animation-fill-mode: forwards;
+  animation-duration: 2.5s;
+  animation-timing-function: ease-in-out;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -504,7 +511,7 @@ p,
   /*----------------*/
   /* ADDED WITH JS */
   /*----------------*/
-  .dice.rotating-roll {
+  .dice.rotating {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 
