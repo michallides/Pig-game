@@ -323,6 +323,46 @@ p,
   animation-timing-function: ease-in-out;
 }
 
+.settings {
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  transform: translate(-50%);
+  /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+  display: none;
+}
+
+.settings h1 {
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+}
+
+.settings h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 2rem;
+  text-transform: none;
+  font-weight: 400;
+  margin-block: 5rem 2rem;
+  text-align: left;
+}
+
+.settings label {
+  display: flex;
+  gap: 2rem;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 1rem;
+}
+
+.settings input,
+.settings input:hover,
+.settings input:active,
+.settings input:focus {
+  outline: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
 /*-------------------------------------------------------------------------*/
 /* ANIMATIONS */
 /*-------------------------------------------------------------------------*/

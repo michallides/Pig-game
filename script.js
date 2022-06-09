@@ -118,6 +118,7 @@ const removeQuickSliding = element => element.classList.remove('quick-sliding');
 const pageStart = function () {
   // PLAYER'S SECTIONS SLIDE IN ON PAGE START
   const sectionStartSlide = function () {
+    // On smaller screens
     if (mediaQueryList.matches) {
       slideFromLeft(player0);
       slideFromRight(player1);
@@ -126,7 +127,9 @@ const pageStart = function () {
         removeSlideFromLeft(player0);
         removeSlideFromRight(player1);
       }, 3000);
-    } else {
+    }
+    // On bigger screens
+    else {
       slideFromTop(player0);
       slideFromBottom(player1);
 
@@ -227,6 +230,93 @@ const switchPlayer = function () {
   player1.classList.toggle('player-active');
 };
 
+// SLIDE OUT FOR SETTINGS FUNCTION
+const settingsSlideOut = function () {
+  fadeOut(diceEl);
+
+  fadeOut(settingsIcon);
+
+  setTimeout(function () {
+    settingsIconLines.forEach(line => line.classList.add('closed'));
+  }, 500);
+
+  setTimeout(function () {
+    fadeIn(settingsIcon);
+  }, 1000);
+
+  buttons.forEach(btn => {
+    fadeOut(btn);
+
+    setTimeout(function () {
+      buttons.forEach(btn => {
+        removeElement(btn);
+      });
+    }, 500);
+  });
+
+  // On smaller screens
+  if (mediaQueryList.matches) {
+    removeSlideFromTop(player0);
+    removeSlideFromBottom(player1);
+    slideToTop(player0);
+    slideToBottom(player1);
+  }
+  // On bigger screens
+  else {
+    removeSlideFromLeft(player0);
+    removeSlideFromRight(player1);
+    slideToLeft(player0);
+    slideToRight(player1);
+  }
+};
+// SLIDE IN FOR SETTINGS FUNCTION
+const settingsSlideIn = function () {
+  fadeOut(settingsIcon);
+
+  setTimeout(function () {
+    settingsIconLines.forEach(line => line.classList.remove('closed'));
+  }, 500);
+
+  setTimeout(function () {
+    fadeIn(settingsIcon);
+  }, 1000);
+
+  buttons.forEach(btn => {
+    addElement(btn);
+
+    setTimeout(function () {
+      buttons.forEach(btn => {
+        fadeIn(btn);
+      });
+    }, 1000);
+  });
+
+  // On smaller screens
+  if (mediaQueryList.matches) {
+    removeSlideToTop(player0);
+    removeSlideToBottom(player1);
+    slideFromTop(player0);
+    slideFromBottom(player1);
+
+    setTimeout(function () {
+      removeSlideFromTop(player0);
+      removeSlideFromBottom(player1);
+    }, 1000);
+  }
+  // On bigger screens
+  else {
+    removeSlideToLeft(player0);
+    removeSlideToRight(player1);
+    slideFromLeft(player0);
+    slideFromRight(player1);
+
+    setTimeout(function () {
+      removeSlideFromLeft(player0);
+      removeSlideFromRight(player1);
+    }, 1000);
+  }
+};
+
 // -------------------------------------------------------------------------------------//
 // FUNCTIONALITIES //
 // -------------------------------------------------------------------------------------//
@@ -268,10 +358,17 @@ holdBtn.addEventListener('click', function () {
     scoreActive.textContent = scores[playerActive];
 
     if (scores[playerActive] >= winningScore) {
+      // !!!!!!!!!!!!!!!!!!!!1
       playing = false;
-      fadeOut(diceEl);
-      fadeOut(holdBtn);
+
       fadeOut(rollDiceBtn);
+      fadeOut(holdBtn);
+
+      setTimeout(function () {
+        removeElement(rollDiceBtn);
+        removeElement(holdBtn);
+      }, 500);
+
       fadeOut(scoreActive);
 
       newGameBtn.classList.add('highlighted');
@@ -303,7 +400,9 @@ newGameBtn.addEventListener('click', function () {
     fadeOut(diceEl);
     fadeOut(winnerImg0);
     fadeOut(winnerImg1);
+
     setTimeout(function () {
+      removeElement(diceEl);
       removeElement(winnerImg0);
       removeElement(winnerImg1);
     }, 500);
@@ -313,6 +412,14 @@ newGameBtn.addEventListener('click', function () {
       fadeIn(btn);
     });
   }
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  addElement(rollDiceBtn);
+  addElement(holdBtn);
+
+  setTimeout(function () {
+    fadeIn(rollDiceBtn);
+    fadeIn(holdBtn);
+  }, 500);
 });
 
 // ROTATING BTN ICONS FUNCTIONALITY --> this has to be on the bottom, because after 'executing = true', above functions would not work (they have if !executing).
@@ -332,104 +439,27 @@ buttons.forEach(btn => {
 
 // SETTINGS BTN FUNCTIONALITY
 settingsIcon.addEventListener('click', function () {
-  if (settingsClosed) {
-    quickSliding(player0);
-    quickSliding(player1);
-    slideOutSettings();
-    settingsClosed = false;
-  } else {
-    slideInSettings();
-    settingsClosed = true;
+  if (!executing) {
+    executing = true;
 
-    setTimeout(function () {
-      removeQuickSliding(player0);
-      removeQuickSliding(player1);
-    }, 1000);
+    if (settingsClosed) {
+      quickSliding(player0);
+      quickSliding(player1);
+      settingsSlideOut();
+      settingsClosed = false;
+
+      setTimeout(function () {
+        executing = false;
+      }, 1000);
+    } else {
+      settingsSlideIn();
+      settingsClosed = true;
+
+      setTimeout(function () {
+        removeQuickSliding(player0);
+        removeQuickSliding(player1);
+        executing = false;
+      }, 1000);
+    }
   }
 });
-
-// SLIDE OUT FOR SETTINGS FUNCTION
-const slideOutSettings = function () {
-  buttons.forEach(btn => {
-    fadeOut(btn);
-
-    setTimeout(function () {
-      buttons.forEach(btn => {
-        removeElement(btn);
-      });
-    }, 500);
-  });
-
-  fadeOut(settingsIcon);
-
-  setTimeout(function () {
-    settingsIconLines.forEach(line => line.classList.add('closed'));
-  }, 500);
-
-  setTimeout(function () {
-    fadeIn(settingsIcon);
-  }, 1000);
-
-  if (mediaQueryList.matches) {
-    slideToTop(player0);
-    slideToBottom(player1);
-
-    setTimeout(function () {
-      removeSlideFromTop(player0);
-      removeSlideFromBottom(player1);
-    }, 1000);
-  } else {
-    slideToLeft(player0);
-    slideToRight(player1);
-
-    setTimeout(function () {
-      removeSlideFromLeft(player0);
-      removeSlideFromRight(player1);
-    }, 1000);
-  }
-};
-
-// SLIDE IN FOR SETTINGS FUNCTION
-const slideInSettings = function () {
-  buttons.forEach(btn => {
-    addElement(btn);
-
-    setTimeout(function () {
-      buttons.forEach(btn => {
-        fadeIn(btn);
-      });
-    }, 1000);
-  });
-
-  fadeOut(settingsIcon);
-
-  setTimeout(function () {
-    settingsIconLines.forEach(line => line.classList.remove('closed'));
-  }, 500);
-
-  setTimeout(function () {
-    fadeIn(settingsIcon);
-  }, 1000);
-
-  if (mediaQueryList.matches) {
-    removeSlideToTop(player0);
-    removeSlideToBottom(player1);
-    slideFromTop(player0);
-    slideFromBottom(player1);
-
-    setTimeout(function () {
-      removeSlideFromTop(player0);
-      removeSlideFromBottom(player1);
-    }, 1000);
-  } else {
-    removeSlideToLeft(player0);
-    removeSlideToRight(player1);
-    slideFromLeft(player0);
-    slideFromRight(player1);
-
-    setTimeout(function () {
-      removeSlideFromLeft(player0);
-      removeSlideFromRight(player1);
-    }, 1000);
-  }
-};
