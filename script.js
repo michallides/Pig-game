@@ -232,17 +232,8 @@ const switchPlayer = function () {
 
 // SLIDE OUT FOR SETTINGS FUNCTION
 const settingsSlideOut = function () {
-  fadeOut(diceEl);
-
   fadeOut(settingsIcon);
-
-  setTimeout(function () {
-    settingsIconLines.forEach(line => line.classList.add('closed'));
-  }, 500);
-
-  setTimeout(function () {
-    fadeIn(settingsIcon);
-  }, 1000);
+  fadeOut(diceEl);
 
   buttons.forEach(btn => {
     fadeOut(btn);
@@ -253,6 +244,15 @@ const settingsSlideOut = function () {
       });
     }, 500);
   });
+
+  setTimeout(function () {
+    settingsIconLines.forEach(line => line.classList.add('closed'));
+    removeElement(diceEl);
+  }, 500);
+
+  setTimeout(function () {
+    fadeIn(settingsIcon);
+  }, 1000);
 
   // On smaller screens
   if (mediaQueryList.matches) {
@@ -275,11 +275,13 @@ const settingsSlideIn = function () {
 
   setTimeout(function () {
     settingsIconLines.forEach(line => line.classList.remove('closed'));
+    addElement(diceEl);
   }, 500);
-
+  // !!!!!!
   setTimeout(function () {
     fadeIn(settingsIcon);
-  }, 1000);
+    fadeIn(diceEl);
+  }, 1500);
 
   buttons.forEach(btn => {
     addElement(btn);
@@ -329,9 +331,9 @@ init();
 rollDiceBtn.addEventListener('click', function () {
   if (playing && !executing) {
     const diceNum = Math.trunc(Math.random() * 6) + 1;
+    diceEl.src = 'img/dice-0.svg';
     fadeIn(diceEl);
     rotate(diceEl);
-    diceEl.src = 'img/dice-0.svg';
 
     setTimeout(function () {
       removeRotate(diceEl);
@@ -358,26 +360,23 @@ holdBtn.addEventListener('click', function () {
     scoreActive.textContent = scores[playerActive];
 
     if (scores[playerActive] >= winningScore) {
-      // !!!!!!!!!!!!!!!!!!!!1
       playing = false;
 
       fadeOut(rollDiceBtn);
       fadeOut(holdBtn);
+      fadeOut(scoreActive);
+      fadeOut(document.querySelector(`.current-box-${playerActive}`));
 
       setTimeout(function () {
         removeElement(rollDiceBtn);
         removeElement(holdBtn);
       }, 500);
 
-      fadeOut(scoreActive);
-
       newGameBtn.classList.add('highlighted');
 
       document
         .querySelector(`.player-${playerActive}`)
         .classList.add('player-winner');
-
-      fadeOut(document.querySelector(`.current-box-${playerActive}`));
 
       // First add img, but still with opacity 0
       addElement(winnerImg);
@@ -395,14 +394,11 @@ holdBtn.addEventListener('click', function () {
 // NEW GAME BTN FUNCTIONALITY
 newGameBtn.addEventListener('click', function () {
   if (!executing) {
-    init();
-
     fadeOut(diceEl);
     fadeOut(winnerImg0);
     fadeOut(winnerImg1);
 
     setTimeout(function () {
-      removeElement(diceEl);
       removeElement(winnerImg0);
       removeElement(winnerImg1);
     }, 500);
@@ -412,7 +408,7 @@ newGameBtn.addEventListener('click', function () {
       fadeIn(btn);
     });
   }
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
   addElement(rollDiceBtn);
   addElement(holdBtn);
 
@@ -420,28 +416,13 @@ newGameBtn.addEventListener('click', function () {
     fadeIn(rollDiceBtn);
     fadeIn(holdBtn);
   }, 500);
-});
 
-// ROTATING BTN ICONS FUNCTIONALITY --> this has to be on the bottom, because after 'executing = true', above functions would not work (they have if !executing).
-buttons.forEach(btn => {
-  btn.addEventListener('click', function () {
-    if (!executing) {
-      executing = true;
-      rotate(btn);
-
-      setTimeout(function () {
-        removeRotate(btn);
-        executing = false;
-      }, 700);
-    }
-  });
+  init();
 });
 
 // SETTINGS BTN FUNCTIONALITY
 settingsIcon.addEventListener('click', function () {
   if (!executing) {
-    executing = true;
-
     if (settingsClosed) {
       quickSliding(player0);
       quickSliding(player1);
@@ -451,6 +432,8 @@ settingsIcon.addEventListener('click', function () {
       setTimeout(function () {
         executing = false;
       }, 1000);
+
+      executing = true;
     } else {
       settingsSlideIn();
       settingsClosed = true;
@@ -462,4 +445,19 @@ settingsIcon.addEventListener('click', function () {
       }, 1000);
     }
   }
+});
+
+// ROTATING BTN ICONS FUNCTIONALITY --> this has to be on the bottom, because after 'executing = true', above functions would not work (they have if !executing).
+buttons.forEach(btn => {
+  btn.addEventListener('click', function () {
+    if (!executing) {
+      rotate(btn);
+      executing = true;
+
+      setTimeout(function () {
+        removeRotate(btn);
+        executing = false;
+      }, 700);
+    }
+  });
 });
