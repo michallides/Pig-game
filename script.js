@@ -24,13 +24,20 @@ const holdBtn = document.querySelector('.hold-btn');
 const winnerImg0 = document.querySelector('.winner-img-0');
 const winnerImg1 = document.querySelector('.winner-img-1');
 
+const settingsEl = document.querySelector('.settings');
 const settingsIconLines = document.querySelectorAll('.settings-icon-line');
 
 // On this width, sections change their layout from right and left to top and bottom respectively --> 750px
 const mediaQueryList = window.matchMedia('(max-width: 46.875em)');
 
 let winningScore = 5;
-let settingsClosed, scores, currentScore, playerActive, playing, executing;
+let settingsClosed,
+  scores,
+  currentScore,
+  playerActive,
+  diceActive,
+  playing,
+  executing;
 
 // -------------------------------------------------------------------------------------//
 // FUNCTIONS //
@@ -202,7 +209,10 @@ const init = function () {
   playerActive = 0;
   playing = true;
   executing = false;
+  diceActive = false;
 
+  removeElement(settingsEl);
+  fadeOut(settingsEl);
   score0.textContent = 0;
   score1.textContent = 0;
   currentScore0.textContent = 0;
@@ -234,24 +244,23 @@ const switchPlayer = function () {
 const settingsSlideOut = function () {
   fadeOut(settingsIcon);
   fadeOut(diceEl);
+  addElement(settingsEl);
 
   buttons.forEach(btn => {
     fadeOut(btn);
-
-    setTimeout(function () {
-      buttons.forEach(btn => {
-        removeElement(btn);
-      });
-    }, 500);
   });
 
   setTimeout(function () {
+    buttons.forEach(btn => {
+      removeElement(btn);
+    });
+
     settingsIconLines.forEach(line => line.classList.add('closed'));
-    removeElement(diceEl);
   }, 500);
 
   setTimeout(function () {
     fadeIn(settingsIcon);
+    fadeIn(settingsEl);
   }, 1000);
 
   // On smaller screens
@@ -272,26 +281,30 @@ const settingsSlideOut = function () {
 // SLIDE IN FOR SETTINGS FUNCTION
 const settingsSlideIn = function () {
   fadeOut(settingsIcon);
+  fadeOut(settingsEl);
 
   setTimeout(function () {
+    buttons.forEach(btn => {
+      addElement(btn);
+    });
+
+    diceEl.classList.add('fade-in-transition'); // this class is for dice to show with 'transition: opacity 0.5s ease-in-out'
     settingsIconLines.forEach(line => line.classList.remove('closed'));
-    addElement(diceEl);
   }, 500);
-  // !!!!!!
+
   setTimeout(function () {
+    buttons.forEach(btn => {
+      fadeIn(btn);
+    });
     fadeIn(settingsIcon);
-    fadeIn(diceEl);
+    removeElement(settingsEl);
+
+    if (diceActive) fadeIn(diceEl);
+  }, 1000);
+
+  setTimeout(function () {
+    diceEl.classList.remove('fade-in-transition');
   }, 1500);
-
-  buttons.forEach(btn => {
-    addElement(btn);
-
-    setTimeout(function () {
-      buttons.forEach(btn => {
-        fadeIn(btn);
-      });
-    }, 1000);
-  });
 
   // On smaller screens
   if (mediaQueryList.matches) {
@@ -331,6 +344,7 @@ init();
 rollDiceBtn.addEventListener('click', function () {
   if (playing && !executing) {
     const diceNum = Math.trunc(Math.random() * 6) + 1;
+    diceActive = true;
     diceEl.src = 'img/dice-0.svg';
     fadeIn(diceEl);
     rotate(diceEl);
@@ -394,6 +408,7 @@ holdBtn.addEventListener('click', function () {
 // NEW GAME BTN FUNCTIONALITY
 newGameBtn.addEventListener('click', function () {
   if (!executing) {
+    diceActive = false;
     fadeOut(diceEl);
     fadeOut(winnerImg0);
     fadeOut(winnerImg1);
@@ -428,15 +443,15 @@ settingsIcon.addEventListener('click', function () {
       quickSliding(player1);
       settingsSlideOut();
       settingsClosed = false;
+      executing = true;
 
       setTimeout(function () {
         executing = false;
       }, 1000);
-
-      executing = true;
     } else {
       settingsSlideIn();
       settingsClosed = true;
+      executing = true;
 
       setTimeout(function () {
         removeQuickSliding(player0);
