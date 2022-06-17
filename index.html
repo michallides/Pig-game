@@ -47,21 +47,32 @@
         <h1>Settings</h1>
 
         <h2>Choose your name</h2>
-        <label class="custom-name">
+        <label class="custom-name-1">
           Player 1:
-          <input type="text" placeholder="Your name" />
+          <input type="text" />
         </label>
 
-        <label class="custom-name">
+        <label class="custom-name-2">
           Player 2:
-          <input type="text" placeholder="Your name" />
+          <input type="text" />
         </label>
 
         <h2>Set winning score</h2>
-        <label class="winning-score">
-          Max score:
-          <input type="number" />
-        </label>
+
+        <div class="winning-score-box">
+          <label class="winning-score">
+            Max score:
+            <input type="text" />
+          </label>
+
+          <button class="score-less-btn"></button>
+          <button class="score-more-btn"></button>
+        </div>
+
+        <div class="settings-btns">
+          <button class="apply-settings-btn">Apply</button>
+          <button class="reset-settings-btn">Reset</button>
+        </div>
       </section>
 
       <!-- BUTTONS -->

@@ -95,7 +95,9 @@ h2 {
   border-radius: 0.8rem;
 }
 
-.btn {
+.btn,
+.apply-settings-btn,
+.reset-settings-btn {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -113,10 +115,22 @@ h2 {
   box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.2);
 }
 
-.btn:active {
-  transform: translate(-50%, 5%);
+.btn:active,
+.apply-settings-btn:active,
+.reset-settings-btn:active,
+.score-less-btn:active,
+.score-more-btn:active {
   transition-duration: 0.15s;
   box-shadow: 0 0.4rem 1rem rgba(51, 51, 51, 0.2);
+}
+
+.btn:active {
+  transform: translate(-50%, 5%);
+}
+
+.apply-settings-btn:active,
+.reset-settings-btn:active {
+  transform: translate(0, 5%);
 }
 
 .btn,
@@ -334,16 +348,13 @@ p,
   top: 5rem;
   left: 50%;
   transform: translate(-50%);
+  padding: 1rem;
   z-index: 9;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .settings h1 {
   text-transform: uppercase;
   letter-spacing: 0.3rem;
-  margin-bottom: 2rem;
 }
 
 .settings h2 {
@@ -351,8 +362,8 @@ p,
   font-size: 2.5rem;
   text-transform: none;
   font-weight: 400;
-  margin-block: 2rem;
-  text-align: left;
+  text-align: center;
+  margin-block: 2rem 3rem;
 }
 
 .settings label {
@@ -360,7 +371,9 @@ p,
   gap: 2rem;
   font-family: 'Roboto', sans-serif;
   font-size: 1.8rem;
-  margin-bottom: 3rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  width: max-content;
 }
 
 .settings input,
@@ -372,7 +385,53 @@ p,
   outline: none;
   box-shadow: none;
   background: transparent;
-  font-size: 1.8rem;
+  font-size: 2rem;
+  font-style: italic;
+  letter-spacing: 0.05rem;
+  color: rgba(35, 35, 35, 0.9);
+  position: relative;
+  top: -0.1rem;
+}
+
+.winning-score-box {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.settings label.winning-score {
+  margin-right: 1rem;
+  margin-bottom: 0;
+}
+
+.winning-score input {
+  max-width: 5rem;
+}
+
+.score-less-btn,
+.score-more-btn {
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  line-height: 1;
+  padding: 1.5rem;
+  border-radius: 3rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.score-less-btn {
+  background-image: url('img/left-arrow.png');
+}
+
+.score-more-btn {
+  background-image: url('img/right-arrow.png');
+}
+
+.settings-btns {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5rem;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -516,6 +575,10 @@ p,
   .winner-img-1 {
     max-width: 14rem;
   }
+
+  .settings h2 {
+    font-size: 2.2rem;
+  }
 }
 
 @media screen and (max-width: 46.875em /*750px*/) {
@@ -574,6 +637,14 @@ p,
   .winner-img-0,
   .winner-img-1 {
     top: 55%;
+  }
+
+  .settings h2 {
+    margin-block: 9rem 5rem;
+  }
+
+  .settings-btns {
+    margin-top: 15rem;
   }
 }
 
