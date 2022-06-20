@@ -11,7 +11,7 @@
     <main>
       <!-- PLAYER 1 -->
       <section class="player player-0 player-active">
-        <h1>Player 1</h1>
+        <h1 class="player-0-name">Player 1</h1>
         <p class="score" id="score-0">0</p>
 
         <img class="winner-img-0 removed" src="img/winner.png" alt="" />
@@ -24,7 +24,7 @@
 
       <!-- PLAYER 2 -->
       <section class="player player-1">
-        <h1>Player 2</h1>
+        <h1 class="player-1-name">Player 2</h1>
         <p class="score" id="score-1">0</p>
 
         <img class="winner-img-1 removed" src="img/winner.png" alt="" />
@@ -49,12 +49,12 @@
         <h2>Choose your name</h2>
         <label class="custom-name-1">
           Player 1:
-          <input type="text" />
+          <input id="player-0" type="text" maxlength="12" />
         </label>
 
         <label class="custom-name-2">
           Player 2:
-          <input type="text" />
+          <input id="player-1" type="text" maxlength="12" />
         </label>
 
         <h2>Set winning score</h2>
@@ -62,7 +62,7 @@
         <div class="winning-score-box">
           <label class="winning-score">
             Max score:
-            <input type="text" />
+            <input id="win-score" type="text" maxlength="3" />
           </label>
 
           <button class="score-less-btn"></button>

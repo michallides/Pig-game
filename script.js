@@ -7,6 +7,8 @@
 const diceEl = document.querySelector('.dice');
 const player0 = document.querySelector('.player-0');
 const player1 = document.querySelector('.player-1');
+const player0Name = document.querySelector('.player-0-name');
+const player1Name = document.querySelector('.player-1-name');
 
 const score0 = document.querySelector('#score-0');
 const score1 = document.querySelector('#score-1');
@@ -26,6 +28,11 @@ const winnerImg1 = document.querySelector('.winner-img-1');
 
 const settingsEl = document.querySelector('.settings');
 const settingsIconLines = document.querySelectorAll('.settings-icon-line');
+const settingsInputP1 = document.querySelector('#player-0');
+const settingsInputP2 = document.querySelector('#player-1');
+const settingsInputScore = document.querySelector('#win-score');
+const settingsApplyBtn = document.querySelector('.apply-settings-btn');
+const settingsResetBtn = document.querySelector('.reset-settings-btn');
 
 // On this width, sections change their layout from right and left to top and bottom respectively --> 750px
 const mediaQueryList = window.matchMedia('(max-width: 46.875em)');
@@ -242,27 +249,6 @@ const switchPlayer = function () {
 
 // SLIDE OUT FOR SETTINGS FUNCTION
 const settingsSlideOut = function () {
-  fadeOut(settingsIcon);
-  fadeOut(diceEl);
-  addElement(settingsEl);
-
-  buttons.forEach(btn => {
-    fadeOut(btn);
-  });
-
-  setTimeout(function () {
-    buttons.forEach(btn => {
-      removeElement(btn);
-    });
-
-    settingsIconLines.forEach(line => line.classList.add('closed'));
-  }, 500);
-
-  setTimeout(function () {
-    fadeIn(settingsIcon);
-    fadeIn(settingsEl);
-  }, 1000);
-
   // On smaller screens
   if (mediaQueryList.matches) {
     removeSlideFromTop(player0);
@@ -277,35 +263,31 @@ const settingsSlideOut = function () {
     slideToLeft(player0);
     slideToRight(player1);
   }
-};
-// SLIDE IN FOR SETTINGS FUNCTION
-const settingsSlideIn = function () {
+
   fadeOut(settingsIcon);
-  fadeOut(settingsEl);
+  fadeOut(diceEl);
+  buttons.forEach(btn => {
+    fadeOut(btn);
+  });
+
+  addElement(settingsEl);
 
   setTimeout(function () {
     buttons.forEach(btn => {
-      addElement(btn);
+      removeElement(btn);
     });
 
-    diceEl.classList.add('fade-in-transition'); // this class is for dice to show with 'transition: opacity 0.5s ease-in-out'
-    settingsIconLines.forEach(line => line.classList.remove('closed'));
+    settingsIconLines.forEach(line => line.classList.add('closed'));
   }, 500);
 
   setTimeout(function () {
-    buttons.forEach(btn => {
-      fadeIn(btn);
-    });
     fadeIn(settingsIcon);
-    removeElement(settingsEl);
-
-    if (diceActive) fadeIn(diceEl);
+    fadeIn(settingsEl);
   }, 1000);
+};
 
-  setTimeout(function () {
-    diceEl.classList.remove('fade-in-transition');
-  }, 1500);
-
+// SLIDE IN FOR SETTINGS FUNCTION
+const settingsSlideIn = function () {
   // On smaller screens
   if (mediaQueryList.matches) {
     removeSlideToTop(player0);
@@ -330,6 +312,33 @@ const settingsSlideIn = function () {
       removeSlideFromRight(player1);
     }, 1000);
   }
+
+  fadeOut(settingsIcon);
+  fadeOut(settingsEl);
+
+  setTimeout(function () {
+    buttons.forEach(btn => {
+      addElement(btn);
+    });
+
+    diceEl.classList.add('fade-in-transition'); // this class is for dice to show with 'transition: opacity 0.5s ease-in-out'
+    settingsIconLines.forEach(line => line.classList.remove('closed'));
+  }, 500);
+
+  setTimeout(function () {
+    removeElement(settingsEl);
+
+    buttons.forEach(btn => {
+      fadeIn(btn);
+    });
+    fadeIn(settingsIcon);
+
+    if (diceActive) fadeIn(diceEl);
+  }, 1000);
+
+  setTimeout(function () {
+    diceEl.classList.remove('fade-in-transition');
+  }, 1500);
 };
 
 // -------------------------------------------------------------------------------------//
@@ -435,6 +444,21 @@ newGameBtn.addEventListener('click', function () {
   init();
 });
 
+// ROTATING BTN ICONS FUNCTIONALITY --> this has to be after btns with rotating icons, because after 'executing = true', btns with rotating icons functions would not work (they have if !executing).
+buttons.forEach(btn => {
+  btn.addEventListener('click', function () {
+    if (!executing) {
+      rotate(btn);
+      executing = true;
+
+      setTimeout(function () {
+        removeRotate(btn);
+        executing = false;
+      }, 700);
+    }
+  });
+});
+
 // SETTINGS BTN FUNCTIONALITY
 settingsIcon.addEventListener('click', function () {
   if (!executing) {
@@ -462,17 +486,12 @@ settingsIcon.addEventListener('click', function () {
   }
 });
 
-// ROTATING BTN ICONS FUNCTIONALITY --> this has to be on the bottom, because after 'executing = true', above functions would not work (they have if !executing).
-buttons.forEach(btn => {
-  btn.addEventListener('click', function () {
-    if (!executing) {
-      rotate(btn);
-      executing = true;
-
-      setTimeout(function () {
-        removeRotate(btn);
-        executing = false;
-      }, 700);
-    }
-  });
+// SETTINGS INPUTS FUNCTIONALITY
+settingsApplyBtn.addEventListener('click', function () {
+  if (settingsInputP1.value >= 1 && settingsInputP2.value >= 1) {
+    player0Name.textContent = settingsInputP1.value;
+    player1Name.textContent = settingsInputP2.value;
+  } else {
+    console.log('warning');
+  }
 });

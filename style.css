@@ -139,7 +139,7 @@ h2 {
 }
 
 .new-game-btn {
-  top: 4rem;
+  top: 2.5rem;
 }
 
 .roll-dice-btn {
@@ -349,6 +349,7 @@ p,
   left: 50%;
   transform: translate(-50%);
   padding: 1rem;
+  margin: 1rem;
   z-index: 9;
 }
 
@@ -395,11 +396,10 @@ p,
 
 .winning-score-box {
   display: flex;
-  gap: 1.5rem;
 }
 
 .settings label.winning-score {
-  margin-right: 1rem;
+  margin-right: 2rem;
   margin-bottom: 0;
 }
 
@@ -414,18 +414,16 @@ p,
   background-repeat: no-repeat;
   line-height: 1;
   padding: 1.5rem;
-  border-radius: 3rem;
   border: none;
   cursor: pointer;
-  box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.2);
 }
 
 .score-less-btn {
-  background-image: url('img/left-arrow.png');
+  background-image: url('img/down-arrow.png');
 }
 
 .score-more-btn {
-  background-image: url('img/right-arrow.png');
+  background-image: url('img/up-arrow.png');
 }
 
 .settings-btns {
