@@ -35,6 +35,7 @@ const settingsApplyBtn = document.querySelector('.apply-settings-btn');
 const settingsResetBtn = document.querySelector('.reset-settings-btn');
 
 // On this width, sections change their layout from right and left to top and bottom respectively --> 750px
+const layoutChangeWidth = 750;
 const mediaQueryList = window.matchMedia('(max-width: 46.875em)');
 
 let winningScore = 5;
@@ -494,4 +495,28 @@ settingsApplyBtn.addEventListener('click', function () {
   } else {
     console.log('warning');
   }
+});
+
+// RESIZE SETTINGS
+
+window.addEventListener('resize', function () {
+  var check = false;
+
+  if (window.innerWidth < 750) {
+    check = true;
+
+    if (
+      player0.classList.contains('slide-to-left') &&
+      player1.classList.contains('slide-to-right')
+    ) {
+      removeSlideToLeft(player0);
+      slideToTop(player0);
+      removeSlideToRight(player1);
+      slideToBottom(player1);
+    }
+  } else {
+    check = false;
+  }
+
+  console.log(check);
 });
