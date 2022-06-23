@@ -34,7 +34,7 @@ const settingsInputScore = document.querySelector('#win-score');
 const settingsApplyBtn = document.querySelector('.apply-settings-btn');
 const settingsResetBtn = document.querySelector('.reset-settings-btn');
 
-// On this width, sections change their layout from right and left to top and bottom respectively --> 750px
+// On this width, sections change their layout from right and left to top and bottom respectively --> 750px (46.875em)
 const layoutChangeWidth = 750;
 const mediaQueryList = window.matchMedia('(max-width: 46.875em)');
 
@@ -122,6 +122,33 @@ const slideToRight = element => element.classList.add('slide-to-right');
 // REMOVE CLASS 'slide-to-right'
 const removeSlideToRight = element =>
   element.classList.remove('slide-to-right');
+
+// ADD CLASS 'hidden-on-top'
+const hiddenOnTop = element => element.classList.add('hidden-on-top');
+
+// REMOVE CLASS 'hidden-on-top'
+const removeHiddenOnTop = element => element.classList.remove('hidden-on-top');
+
+// ADD CLASS 'hidden-on-bottom'
+const hiddenOnBottom = element => element.classList.add('hidden-on-bottom');
+
+// REMOVE CLASS 'hidden-on-bottom'
+const removeHiddenOnBottom = element =>
+  element.classList.remove('hidden-on-bottom');
+
+// ADD CLASS 'hidden-on-left'
+const hiddenOnLeft = element => element.classList.add('hidden-on-left');
+
+// REMOVE CLASS 'hidden-on-left'
+const removeHiddenOnLeft = element =>
+  element.classList.remove('hidden-on-left');
+
+// ADD CLASS 'hidden-on-right'
+const hiddenOnRight = element => element.classList.add('hidden-on-right');
+
+// REMOVE CLASS 'hidden-on-right'
+const removeHiddenOnRight = element =>
+  element.classList.remove('hidden-on-right');
 
 // QUICK SLIDING (animation --> 1s; transition --> 0s)
 const quickSliding = element => element.classList.add('quick-sliding');
@@ -252,17 +279,31 @@ const switchPlayer = function () {
 const settingsSlideOut = function () {
   // On smaller screens
   if (mediaQueryList.matches) {
-    removeSlideFromTop(player0);
-    removeSlideFromBottom(player1);
+    // removeSlideFromTop(player0);
+    // removeSlideFromBottom(player1);
     slideToTop(player0);
     slideToBottom(player1);
+
+    setTimeout(function () {
+      removeSlideToTop(player0);
+      removeSlideToBottom(player1);
+      hiddenOnTop(player0);
+      hiddenOnBottom(player1);
+    }, 1000);
   }
   // On bigger screens
   else {
-    removeSlideFromLeft(player0);
-    removeSlideFromRight(player1);
+    // removeSlideFromLeft(player0);
+    // removeSlideFromRight(player1);
     slideToLeft(player0);
     slideToRight(player1);
+
+    setTimeout(function () {
+      removeSlideToLeft(player0);
+      removeSlideToRight(player1);
+      hiddenOnLeft(player0);
+      hiddenOnRight(player1);
+    }, 1000);
   }
 
   fadeOut(settingsIcon);
@@ -291,8 +332,10 @@ const settingsSlideOut = function () {
 const settingsSlideIn = function () {
   // On smaller screens
   if (mediaQueryList.matches) {
-    removeSlideToTop(player0);
-    removeSlideToBottom(player1);
+    // removeSlideToTop(player0);
+    // removeSlideToBottom(player1);
+    removeHiddenOnTop(player0);
+    removeHiddenOnBottom(player1);
     slideFromTop(player0);
     slideFromBottom(player1);
 
@@ -303,8 +346,10 @@ const settingsSlideIn = function () {
   }
   // On bigger screens
   else {
-    removeSlideToLeft(player0);
-    removeSlideToRight(player1);
+    // removeSlideToLeft(player0);
+    // removeSlideToRight(player1);
+    removeHiddenOnLeft(player0);
+    removeHiddenOnRight(player1);
     slideFromLeft(player0);
     slideFromRight(player1);
 
@@ -500,23 +545,41 @@ settingsApplyBtn.addEventListener('click', function () {
 // RESIZE SETTINGS
 
 window.addEventListener('resize', function () {
-  var check = false;
-
   if (window.innerWidth < 750) {
-    check = true;
-
     if (
-      player0.classList.contains('slide-to-left') &&
-      player1.classList.contains('slide-to-right')
+      player0.classList.contains('hidden-on-left') &&
+      player1.classList.contains('hidden-on-right')
     ) {
-      removeSlideToLeft(player0);
-      slideToTop(player0);
-      removeSlideToRight(player1);
-      slideToBottom(player1);
+      removeHiddenOnLeft(player0);
+      removeHiddenOnRight(player1);
+      hiddenOnTop(player0);
+      hiddenOnBottom(player1);
     }
   } else {
-    check = false;
+    if (
+      player0.classList.contains('hidden-on-top') &&
+      player1.classList.contains('.hidden-on-bottom')
+    ) {
+      removeHiddenOnTop(player0);
+      removeHiddenOnBottom(player1);
+      hiddenOnLeft(player0);
+      hiddenOnRight(player1);
+    }
   }
-
-  console.log(check);
 });
+
+// if ((settingsClosed = false)) {
+//   window.addEventListener('resize', function () {
+//     if (window.innerWidth < 750) {
+//       removeHiddenOnLeft(player0);
+//       removeHiddenOnRight(player1);
+//       hiddenOnTop(player0);
+//       hiddenOnBottom(player1);
+//     } else {
+//       removeHiddenOnTop(player0);
+//       removeHiddenOnBottom(player1);
+//       hiddenOnLeft(player0);
+//       hiddenOnRight(player1);
+//     }
+//   });
+// }

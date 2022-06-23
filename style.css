@@ -343,6 +343,22 @@ p,
   animation-timing-function: ease-in-out;
 }
 
+.hidden-on-top {
+  transform: translateY(-100%);
+}
+
+.hidden-on-bottom {
+  transform: translateY(100%);
+}
+
+.hidden-on-left {
+  transform: translateX(-100%);
+}
+
+.hidden-on-right {
+  transform: translateX(100%);
+}
+
 .settings {
   position: absolute;
   top: 5rem;
