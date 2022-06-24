@@ -28,11 +28,14 @@ const winnerImg1 = document.querySelector('.winner-img-1');
 
 const settingsEl = document.querySelector('.settings');
 const settingsIconLines = document.querySelectorAll('.settings-icon-line');
-const settingsInputP1 = document.querySelector('#player-0');
-const settingsInputP2 = document.querySelector('#player-1');
+const settingsInputP0 = document.querySelector('#player-0');
+const settingsInputP1 = document.querySelector('#player-1');
 const settingsInputScore = document.querySelector('#win-score');
 const settingsApplyBtn = document.querySelector('.apply-settings-btn');
 const settingsResetBtn = document.querySelector('.reset-settings-btn');
+const settingsWarning0 = document.querySelector('.warning-0');
+const settingsWarning1 = document.querySelector('.warning-1');
+const settingsWarningScore = document.querySelector('.warning-score');
 
 // On this width, sections change their layout from right and left to top and bottom respectively --> 750px (46.875em)
 const layoutChangeWidth = 750;
@@ -248,6 +251,10 @@ const init = function () {
 
   removeElement(settingsEl);
   fadeOut(settingsEl);
+  removeElement(settingsWarning0);
+  removeElement(settingsWarning1);
+  removeElement(settingsWarningScore);
+
   score0.textContent = 0;
   score1.textContent = 0;
   currentScore0.textContent = 0;
@@ -273,6 +280,36 @@ const switchPlayer = function () {
   playerActive = playerActive === 0 ? 1 : 0;
   player0.classList.toggle('player-active');
   player1.classList.toggle('player-active');
+};
+
+// RESIZE SETTINGS FUNCTION --> When settings are open, this function adds event listener on 'resize', so if user opened settings on bigger window width (player's sections slided out to left and to right), and then user reduce window width, these player's sections change positions to top and to bottom (on their supposed positions in this window width)
+const resizeSettings = function () {
+  window.addEventListener('resize', function () {
+    if (!settingsClosed) {
+      if (window.innerWidth < 750) {
+        if (
+          player0.classList.contains('hidden-on-left') &&
+          player1.classList.contains('hidden-on-right')
+        ) {
+          removeHiddenOnLeft(player0);
+          removeHiddenOnRight(player1);
+          hiddenOnTop(player0);
+          hiddenOnBottom(player1);
+        }
+      }
+      if (window.innerWidth >= 750) {
+        if (
+          player0.classList.contains('hidden-on-top') &&
+          player1.classList.contains('hidden-on-bottom')
+        ) {
+          removeHiddenOnTop(player0);
+          removeHiddenOnBottom(player1);
+          hiddenOnLeft(player0);
+          hiddenOnRight(player1);
+        }
+      }
+    }
+  });
 };
 
 // SLIDE OUT FOR SETTINGS FUNCTION
@@ -326,6 +363,8 @@ const settingsSlideOut = function () {
     fadeIn(settingsIcon);
     fadeIn(settingsEl);
   }, 1000);
+
+  resizeSettings();
 };
 
 // SLIDE IN FOR SETTINGS FUNCTION
@@ -385,6 +424,8 @@ const settingsSlideIn = function () {
   setTimeout(function () {
     diceEl.classList.remove('fade-in-transition');
   }, 1500);
+
+  resizeSettings();
 };
 
 // -------------------------------------------------------------------------------------//
@@ -517,7 +558,7 @@ settingsIcon.addEventListener('click', function () {
 
       setTimeout(function () {
         executing = false;
-      }, 1000);
+      }, 1200);
     } else {
       settingsSlideIn();
       settingsClosed = true;
@@ -527,59 +568,25 @@ settingsIcon.addEventListener('click', function () {
         removeQuickSliding(player0);
         removeQuickSliding(player1);
         executing = false;
-      }, 1000);
+      }, 1200);
     }
   }
 });
 
 // SETTINGS INPUTS FUNCTIONALITY
+// ! Value je len pre cislo, potrebujem pocet pismen
 settingsApplyBtn.addEventListener('click', function () {
-  if (settingsInputP1.value >= 1 && settingsInputP2.value >= 1) {
-    player0Name.textContent = settingsInputP1.value;
-    player1Name.textContent = settingsInputP2.value;
+  if (settingsInputP0.value >= 1) {
+    removeElement(settingsWarning0);
+    player0Name.textContent = settingsInputP0.value;
   } else {
-    console.log('warning');
+    addElement(settingsWarning0);
+  }
+
+  if (settingsInputP1.value >= 1) {
+    removeElement(settingsWarning1);
+    player1Name.textContent = settingsInputP1.value;
+  } else {
+    addElement(settingsWarning1);
   }
 });
-
-// RESIZE SETTINGS
-
-window.addEventListener('resize', function () {
-  if (window.innerWidth < 750) {
-    if (
-      player0.classList.contains('hidden-on-left') &&
-      player1.classList.contains('hidden-on-right')
-    ) {
-      removeHiddenOnLeft(player0);
-      removeHiddenOnRight(player1);
-      hiddenOnTop(player0);
-      hiddenOnBottom(player1);
-    }
-  } else {
-    if (
-      player0.classList.contains('hidden-on-top') &&
-      player1.classList.contains('.hidden-on-bottom')
-    ) {
-      removeHiddenOnTop(player0);
-      removeHiddenOnBottom(player1);
-      hiddenOnLeft(player0);
-      hiddenOnRight(player1);
-    }
-  }
-});
-
-// if ((settingsClosed = false)) {
-//   window.addEventListener('resize', function () {
-//     if (window.innerWidth < 750) {
-//       removeHiddenOnLeft(player0);
-//       removeHiddenOnRight(player1);
-//       hiddenOnTop(player0);
-//       hiddenOnBottom(player1);
-//     } else {
-//       removeHiddenOnTop(player0);
-//       removeHiddenOnBottom(player1);
-//       hiddenOnLeft(player0);
-//       hiddenOnRight(player1);
-//     }
-//   });
-// }
