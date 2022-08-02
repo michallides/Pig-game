@@ -31,11 +31,13 @@ const settingsIconLines = document.querySelectorAll('.settings-icon-line');
 const settingsInputP0 = document.querySelector('#player-0');
 const settingsInputP1 = document.querySelector('#player-1');
 const settingsInputScore = document.querySelector('#win-score');
-const settingsApplyBtn = document.querySelector('.apply-settings-btn');
-const settingsResetBtn = document.querySelector('.reset-settings-btn');
 const settingsWarning0 = document.querySelector('.warning-0');
 const settingsWarning1 = document.querySelector('.warning-1');
 const settingsWarningScore = document.querySelector('.warning-score');
+const settingsApplyBtn = document.querySelector('.apply-settings-btn');
+const settingsResetBtn = document.querySelector('.reset-settings-btn');
+const settingsScoreLessBtn = document.querySelector('.score-less-btn');
+const settingsScoreMoreBtn = document.querySelector('.score-more-btn');
 
 // On this width, sections change their layout from right and left to top and bottom respectively --> 750px (46.875em)
 const layoutChangeWidth = 750;
@@ -574,19 +576,51 @@ settingsIcon.addEventListener('click', function () {
 });
 
 // SETTINGS INPUTS FUNCTIONALITY
-// ! Value je len pre cislo, potrebujem pocet pismen
+
+// APPLY BTN FUNCTIONALITY
 settingsApplyBtn.addEventListener('click', function () {
-  if (settingsInputP0.value >= 1) {
+  if (settingsInputP0.value.length) {
     removeElement(settingsWarning0);
     player0Name.textContent = settingsInputP0.value;
   } else {
     addElement(settingsWarning0);
   }
 
-  if (settingsInputP1.value >= 1) {
+  if (settingsInputP1.value.length) {
     removeElement(settingsWarning1);
     player1Name.textContent = settingsInputP1.value;
   } else {
     addElement(settingsWarning1);
+  }
+
+  if (settingsInputScore.value >= 20 && settingsInputScore.value <= 900) {
+    removeElement(settingsWarningScore);
+    winningScore = Number(settingsInputScore.value);
+  } else {
+    addElement(settingsWarningScore);
+  }
+});
+
+// RESET BTN FUNCTIONALITY
+settingsResetBtn.addEventListener('click', function () {
+  settingsInputP0.value = player0Name.textContent;
+  settingsInputP1.value = player1Name.textContent;
+  winningScore = 20;
+  settingsInputScore.value = winningScore;
+});
+
+// SCORE LESS BTN FUNCTIONALITY
+settingsScoreLessBtn.addEventListener('click', function () {
+  if (winningScore > 20) {
+    winningScore -= 1;
+    settingsInputScore.value = winningScore;
+  }
+});
+
+// SCORE MORE BTN FUNCTIONALITY
+settingsScoreMoreBtn.addEventListener('click', function () {
+  if (winningScore < 900) {
+    winningScore += 1;
+    settingsInputScore.value += winningScore;
   }
 });
