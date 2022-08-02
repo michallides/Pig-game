@@ -579,6 +579,8 @@ settingsIcon.addEventListener('click', function () {
 
 // APPLY BTN FUNCTIONALITY
 settingsApplyBtn.addEventListener('click', function () {
+  winningScore = Number(settingsInputScore.value);
+
   if (settingsInputP0.value.length) {
     removeElement(settingsWarning0);
     player0Name.textContent = settingsInputP0.value;
@@ -593,9 +595,8 @@ settingsApplyBtn.addEventListener('click', function () {
     addElement(settingsWarning1);
   }
 
-  if (settingsInputScore.value >= 20 && settingsInputScore.value <= 900) {
+  if (winningScore >= 20 && winningScore <= 900) {
     removeElement(settingsWarningScore);
-    winningScore = Number(settingsInputScore.value);
   } else {
     addElement(settingsWarningScore);
   }
@@ -621,6 +622,6 @@ settingsScoreLessBtn.addEventListener('click', function () {
 settingsScoreMoreBtn.addEventListener('click', function () {
   if (winningScore < 900) {
     winningScore += 1;
-    settingsInputScore.value += winningScore;
+    settingsInputScore.value = winningScore;
   }
 });
