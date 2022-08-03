@@ -43,7 +43,10 @@ const settingsScoreMoreBtn = document.querySelector('.score-more-btn');
 const layoutChangeWidth = 750;
 const mediaQueryList = window.matchMedia('(max-width: 46.875em)');
 
-let winningScore = 5;
+const defaultWinningScore = 20;
+let winningScore = defaultWinningScore,
+  inputValue = Number(settingsInputScore.value);
+
 let settingsClosed,
   scores,
   currentScore,
@@ -575,7 +578,21 @@ settingsIcon.addEventListener('click', function () {
   }
 });
 
-// SETTINGS INPUTS FUNCTIONALITY
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && !settingsClosed) {
+    settingsSlideIn();
+    settingsClosed = true;
+    executing = true;
+
+    setTimeout(function () {
+      removeQuickSliding(player0);
+      removeQuickSliding(player1);
+      executing = false;
+    }, 1200);
+  }
+});
+
+// SETTINGS INPUTS FUNCTIONALITY //
 
 // APPLY BTN FUNCTIONALITY
 settingsApplyBtn.addEventListener('click', function () {
@@ -606,22 +623,29 @@ settingsApplyBtn.addEventListener('click', function () {
 settingsResetBtn.addEventListener('click', function () {
   settingsInputP0.value = player0Name.textContent;
   settingsInputP1.value = player1Name.textContent;
-  winningScore = 20;
-  settingsInputScore.value = winningScore;
+  winningScore = defaultWinningScore;
+  inputValue = winningScore;
+  settingsInputScore.value = inputValue;
 });
 
 // SCORE LESS BTN FUNCTIONALITY
 settingsScoreLessBtn.addEventListener('click', function () {
-  if (winningScore > 20) {
-    winningScore -= 1;
-    settingsInputScore.value = winningScore;
+  inputValue = Number(settingsInputScore.value);
+
+  if (inputValue > 20) {
+    inputValue -= 1;
+    settingsInputScore.value = inputValue;
+    winningScore = inputValue;
   }
 });
 
 // SCORE MORE BTN FUNCTIONALITY
 settingsScoreMoreBtn.addEventListener('click', function () {
-  if (winningScore < 900) {
-    winningScore += 1;
-    settingsInputScore.value = winningScore;
+  inputValue = Number(settingsInputScore.value);
+
+  if (inputValue < 900) {
+    inputValue += 1;
+    settingsInputScore.value = inputValue;
+    winningScore = inputValue;
   }
 });
