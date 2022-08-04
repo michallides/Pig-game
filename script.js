@@ -45,9 +45,10 @@ const mediaQueryList = window.matchMedia('(max-width: 46.875em)');
 
 const defaultWinningScore = 20;
 let winningScore = defaultWinningScore,
-  inputValue = Number(settingsInputScore.value);
+  inputScoreValue = Number(settingsInputScore.value);
 
 let settingsClosed,
+  settingsWarning,
   scores,
   currentScore,
   playerActive,
@@ -256,6 +257,7 @@ const init = function () {
 
   removeElement(settingsEl);
   fadeOut(settingsEl);
+
   removeElement(settingsWarning0);
   removeElement(settingsWarning1);
   removeElement(settingsWarningScore);
@@ -433,6 +435,50 @@ const settingsSlideIn = function () {
   resizeSettings();
 };
 
+// SETTINGS APPLY FUNCTION
+const applySettings = function () {
+  winningScore = Number(settingsInputScore.value);
+
+  if (settingsInputP0.value) {
+    removeElement(settingsWarning0);
+    settingsWarning = false;
+    player0Name.textContent = settingsInputP0.value;
+  } else {
+    addElement(settingsWarning0);
+    settingsWarning = true;
+  }
+
+  if (settingsInputP1.value) {
+    removeElement(settingsWarning1);
+    settingsWarning = false;
+    player1Name.textContent = settingsInputP1.value;
+  } else {
+    addElement(settingsWarning1);
+    settingsWarning = true;
+  }
+
+  if (winningScore >= 20 && winningScore <= 900) {
+    removeElement(settingsWarningScore);
+    settingsWarning = false;
+  } else {
+    addElement(settingsWarningScore);
+    settingsWarning = true;
+  }
+};
+
+// CLOSE SETTINGS FUNCTION
+const closeSettings = function () {
+  settingsSlideIn();
+  settingsClosed = true;
+  executing = true;
+
+  setTimeout(function () {
+    removeQuickSliding(player0);
+    removeQuickSliding(player1);
+    executing = false;
+  }, 1200);
+};
+
 // -------------------------------------------------------------------------------------//
 // FUNCTIONALITIES //
 // -------------------------------------------------------------------------------------//
@@ -565,30 +611,14 @@ settingsIcon.addEventListener('click', function () {
         executing = false;
       }, 1200);
     } else {
-      settingsSlideIn();
-      settingsClosed = true;
-      executing = true;
-
-      setTimeout(function () {
-        removeQuickSliding(player0);
-        removeQuickSliding(player1);
-        executing = false;
-      }, 1200);
+      closeSettings();
     }
   }
 });
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && !settingsClosed) {
-    settingsSlideIn();
-    settingsClosed = true;
-    executing = true;
-
-    setTimeout(function () {
-      removeQuickSliding(player0);
-      removeQuickSliding(player1);
-      executing = false;
-    }, 1200);
+    closeSettings();
   }
 });
 
@@ -596,56 +626,61 @@ document.addEventListener('keydown', function (e) {
 
 // APPLY BTN FUNCTIONALITY
 settingsApplyBtn.addEventListener('click', function () {
-  winningScore = Number(settingsInputScore.value);
+  applySettings();
+});
 
-  if (settingsInputP0.value.length) {
-    removeElement(settingsWarning0);
-    player0Name.textContent = settingsInputP0.value;
-  } else {
-    addElement(settingsWarning0);
-  }
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !settingsClosed) {
+    applySettings();
 
-  if (settingsInputP1.value.length) {
-    removeElement(settingsWarning1);
-    player1Name.textContent = settingsInputP1.value;
-  } else {
-    addElement(settingsWarning1);
-  }
-
-  if (winningScore >= 20 && winningScore <= 900) {
-    removeElement(settingsWarningScore);
-  } else {
-    addElement(settingsWarningScore);
+    if (!settingsWarning) closeSettings();
   }
 });
 
 // RESET BTN FUNCTIONALITY
 settingsResetBtn.addEventListener('click', function () {
-  settingsInputP0.value = player0Name.textContent;
-  settingsInputP1.value = player1Name.textContent;
+  settingsInputP0.value = 'Player 1';
+  settingsInputP1.value = 'Player 2';
   winningScore = defaultWinningScore;
-  inputValue = winningScore;
-  settingsInputScore.value = inputValue;
+  inputScoreValue = winningScore;
+  settingsInputScore.value = inputScoreValue;
 });
 
 // SCORE LESS BTN FUNCTIONALITY
 settingsScoreLessBtn.addEventListener('click', function () {
-  inputValue = Number(settingsInputScore.value);
+  inputScoreValue = Number(settingsInputScore.value);
 
-  if (inputValue > 20) {
-    inputValue -= 1;
-    settingsInputScore.value = inputValue;
-    winningScore = inputValue;
+  if (inputScoreValue > 20) {
+    inputScoreValue -= 1;
+    settingsInputScore.value = inputScoreValue;
+    winningScore = inputScoreValue;
   }
 });
 
 // SCORE MORE BTN FUNCTIONALITY
 settingsScoreMoreBtn.addEventListener('click', function () {
-  inputValue = Number(settingsInputScore.value);
+  inputScoreValue = Number(settingsInputScore.value);
 
-  if (inputValue < 900) {
-    inputValue += 1;
-    settingsInputScore.value = inputValue;
-    winningScore = inputValue;
+  if (inputScoreValue < 900) {
+    inputScoreValue += 1;
+    settingsInputScore.value = inputScoreValue;
+    winningScore = inputScoreValue;
   }
+});
+
+// SCORE LESS AND MORE BTNS IF INPUT VALUE IS LESS OR MORE THAN ALLOWED
+[settingsScoreLessBtn, settingsScoreMoreBtn].forEach(element => {
+  element.addEventListener('click', function () {
+    if (inputScoreValue < 20) {
+      inputScoreValue = 20;
+      settingsInputScore.value = inputScoreValue;
+      winningScore = inputScoreValue;
+    }
+
+    if (inputScoreValue > 900) {
+      inputScoreValue = 900;
+      settingsInputScore.value = inputScoreValue;
+      winningScore = inputScoreValue;
+    }
+  });
 });
