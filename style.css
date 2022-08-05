@@ -8,6 +8,15 @@
   box-sizing: border-box;
 }
 
+/* Remove highlight of btns when clicked on mobile Chrome browser */
+*:focus {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+/* Remove spin button from input with number style  */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
@@ -419,6 +428,7 @@ p,
   font-size: 2rem;
   font-style: italic;
   letter-spacing: 0.05rem;
+  text-decoration: none;
   color: rgba(35, 35, 35, 0.9);
   position: relative;
   top: -0.1rem;

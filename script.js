@@ -47,14 +47,17 @@ const defaultWinningScore = 20;
 let winningScore = defaultWinningScore,
   inputScoreValue = Number(settingsInputScore.value);
 
-let settingsClosed,
-  settingsWarning,
-  scores,
+let scores,
   currentScore,
   playerActive,
   diceActive,
   playing,
-  executing;
+  executing,
+  settingsClosed,
+  settingsWarning;
+
+// Use this object when closing settings with unapplied changes. It keeps the last applied settings
+let actualSettings;
 
 // -------------------------------------------------------------------------------------//
 // FUNCTIONS //
@@ -323,8 +326,6 @@ const resizeSettings = function () {
 const settingsSlideOut = function () {
   // On smaller screens
   if (mediaQueryList.matches) {
-    // removeSlideFromTop(player0);
-    // removeSlideFromBottom(player1);
     slideToTop(player0);
     slideToBottom(player1);
 
@@ -337,8 +338,6 @@ const settingsSlideOut = function () {
   }
   // On bigger screens
   else {
-    // removeSlideFromLeft(player0);
-    // removeSlideFromRight(player1);
     slideToLeft(player0);
     slideToRight(player1);
 
@@ -378,8 +377,6 @@ const settingsSlideOut = function () {
 const settingsSlideIn = function () {
   // On smaller screens
   if (mediaQueryList.matches) {
-    // removeSlideToTop(player0);
-    // removeSlideToBottom(player1);
     removeHiddenOnTop(player0);
     removeHiddenOnBottom(player1);
     slideFromTop(player0);
@@ -392,8 +389,6 @@ const settingsSlideIn = function () {
   }
   // On bigger screens
   else {
-    // removeSlideToLeft(player0);
-    // removeSlideToRight(player1);
     removeHiddenOnLeft(player0);
     removeHiddenOnRight(player1);
     slideFromLeft(player0);
@@ -464,10 +459,22 @@ const applySettings = function () {
     addElement(settingsWarningScore);
     settingsWarning = true;
   }
+
+  actualSettings = {
+    inputP0Value: settingsInputP0.value,
+    inputP1Value: settingsInputP1.value,
+    inputScoreValue: winningScore,
+    winningScore,
+  };
 };
 
 // CLOSE SETTINGS FUNCTION
 const closeSettings = function () {
+  settingsInputP0.value = actualSettings.inputP0Value;
+  settingsInputP1.value = actualSettings.inputP1Value;
+  settingsInputScore.value = actualSettings.inputScoreValue;
+  winningScore = inputScoreValue.winningScore;
+
   settingsSlideIn();
   settingsClosed = true;
   executing = true;
@@ -654,7 +661,6 @@ settingsScoreLessBtn.addEventListener('click', function () {
   if (inputScoreValue > 20) {
     inputScoreValue -= 1;
     settingsInputScore.value = inputScoreValue;
-    winningScore = inputScoreValue;
   }
 });
 
@@ -665,7 +671,6 @@ settingsScoreMoreBtn.addEventListener('click', function () {
   if (inputScoreValue < 900) {
     inputScoreValue += 1;
     settingsInputScore.value = inputScoreValue;
-    winningScore = inputScoreValue;
   }
 });
 
@@ -675,13 +680,11 @@ settingsScoreMoreBtn.addEventListener('click', function () {
     if (inputScoreValue < 20) {
       inputScoreValue = 20;
       settingsInputScore.value = inputScoreValue;
-      winningScore = inputScoreValue;
     }
 
     if (inputScoreValue > 900) {
       inputScoreValue = 900;
       settingsInputScore.value = inputScoreValue;
-      winningScore = inputScoreValue;
     }
   });
 });
