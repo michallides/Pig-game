@@ -477,8 +477,6 @@ const closeSettings = function () {
     removeQuickSliding(player1);
     executing = false;
   }, 1200);
-
-  alert('working');
 };
 
 // -------------------------------------------------------------------------------------//
@@ -614,7 +612,6 @@ settingsIcon.addEventListener('click', function () {
       }, 1200);
     } else {
       closeSettings();
-      alert('working 2');
     }
   }
 });
@@ -647,6 +644,7 @@ settingsResetBtn.addEventListener('click', function () {
   winningScore = defaultWinningScore;
   inputScoreValue = winningScore;
   settingsInputScore.value = inputScoreValue;
+  applySettings();
 });
 
 // SCORE LESS BTN FUNCTIONALITY
