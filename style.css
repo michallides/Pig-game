@@ -426,7 +426,7 @@ p,
   box-shadow: none;
   background: transparent;
   font-size: 2rem;
-  font-style: italic;
+  font-weight: 600;
   letter-spacing: 0.05rem;
   text-decoration: none;
   color: rgba(35, 35, 35, 0.9);
