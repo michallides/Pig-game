@@ -383,10 +383,12 @@ p,
 .settings {
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translate(-50%);
+  left: 0;
+  bottom: 0;
+  right: 0;
   padding: 1rem;
-  margin: 1rem;
+  margin-inline: auto;
+  max-width: 400px;
   z-index: 9;
 }
 
