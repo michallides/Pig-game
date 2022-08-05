@@ -57,7 +57,12 @@ let scores,
   settingsWarning;
 
 // Use this object when closing settings with unapplied changes. It keeps the last applied settings
-let actualSettings;
+let actualSettings = {
+  inputP0Value: settingsInputP0.value,
+  inputP1Value: settingsInputP1.value,
+  inputScoreValue: winningScore,
+  winningScore,
+};
 
 // -------------------------------------------------------------------------------------//
 // FUNCTIONS //
