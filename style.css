@@ -16,6 +16,12 @@
   touch-action: manipulation;
 }
 
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-focus-ring-color: transparent !important;
+  outline: none !important;
+}
+
 /* Remove spin button from input with number style  */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -136,10 +142,7 @@ h2 {
 }
 
 .btn:active,
-.apply-settings-btn:active,
-.reset-settings-btn:active,
-.score-less-btn:active,
-.score-more-btn:active {
+.settings-btn:active {
   transition-duration: 0.15s;
   box-shadow: 0 0.4rem 1rem rgba(51, 51, 51, 0.2);
 }
@@ -409,13 +412,13 @@ p,
 
 .settings label {
   display: flex;
+  flex-wrap: nowrap;
   position: relative;
   gap: 2rem;
   font-family: 'Roboto', sans-serif;
   font-size: 1.8rem;
   line-height: 1.4;
   margin-bottom: 2rem;
-  width: max-content;
 }
 
 .settings input,
@@ -424,7 +427,6 @@ p,
 .settings input:focus {
   outline: none;
   border: none;
-  outline: none;
   box-shadow: none;
   background: transparent;
   font-size: 2rem;
@@ -434,7 +436,7 @@ p,
   text-decoration: none;
   color: rgba(35, 35, 35, 0.9);
   position: relative;
-  top: -0.1rem;
+  max-width: 18.7rem;
 }
 
 .winning-score-box {
@@ -446,7 +448,7 @@ p,
   margin-bottom: 0;
 }
 
-.winning-score input {
+.settings .winning-score input {
   max-width: 6rem;
 }
 
@@ -738,5 +740,24 @@ p,
   .winner-img-0,
   .winner-img-1 {
     max-width: 12rem;
+  }
+}
+
+@media screen and (max-width: 24.375em /*390px*/) {
+  main {
+    margin-inline: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.3rem 0.5rem;
+    gap: 0.2rem;
+  }
+
+  .roll-dice-btn {
+    right: 0.5rem;
+  }
+
+  .hold-btn {
+    left: 0.5rem;
   }
 }
