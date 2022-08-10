@@ -599,7 +599,7 @@ p,
   }
 
   .current-box {
-    padding: 1.3rem 3rem;
+    padding: 1rem 3rem;
   }
 
   .btn {
@@ -649,7 +649,7 @@ p,
 
   .player {
     flex-basis: 100%;
-    padding-bottom: 3rem;
+    padding-bottom: 4rem;
   }
 
   .score {
@@ -659,6 +659,10 @@ p,
   .btn,
   .dice {
     top: 50%;
+  }
+
+  .dice {
+    width: 5.5rem;
   }
 
   .new-game-btn {
@@ -717,10 +721,6 @@ p,
   .btn {
     padding: 0.3rem 0.7rem;
     gap: 0.5rem;
-  }
-
-  .dice {
-    width: 5.5rem;
   }
 
   .current-box {
