@@ -478,7 +478,7 @@ const closeSettings = function () {
   settingsInputP0.value = actualSettings.inputP0Value;
   settingsInputP1.value = actualSettings.inputP1Value;
   settingsInputScore.value = actualSettings.inputScoreValue;
-  winningScore = inputScoreValue.winningScore;
+  winningScore = actualSettings.winningScore;
 
   settingsSlideIn();
   settingsClosed = true;
