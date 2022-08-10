@@ -760,4 +760,12 @@ p,
   .hold-btn {
     left: 0.5rem;
   }
+
+  .score {
+    margin-block: 0rem 3rem;
+  }
+
+  .player {
+    padding-bottom: 3rem;
+  }
 }
