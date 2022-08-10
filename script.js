@@ -649,8 +649,6 @@ settingsApplyBtn.addEventListener('click', function () {
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Enter' && !settingsClosed) {
     applySettings();
-
-    if (!settingsWarning) closeSettings();
   }
 });
 
