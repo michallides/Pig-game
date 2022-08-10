@@ -707,10 +707,6 @@ p,
   .settings h2 {
     margin-block: 9rem 5rem;
   }
-
-  .settings-btns {
-    margin-top: 12rem;
-  }
 }
 
 @media screen and (max-width: 33.125em /*530px*/) {
