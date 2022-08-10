@@ -649,10 +649,11 @@ p,
 
   .player {
     flex-basis: 100%;
+    padding-bottom: 3rem;
   }
 
   .score {
-    margin-block: 2rem 5rem;
+    margin-block: 0rem 3rem;
   }
 
   .btn,
@@ -759,13 +760,5 @@ p,
 
   .hold-btn {
     left: 0.5rem;
-  }
-
-  .score {
-    margin-block: 0rem 3rem;
-  }
-
-  .player {
-    padding-bottom: 3rem;
   }
 }
