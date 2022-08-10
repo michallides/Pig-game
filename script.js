@@ -439,30 +439,35 @@ const settingsSlideIn = function () {
 const applySettings = function () {
   winningScore = Number(settingsInputScore.value);
 
-  if (settingsInputP0.value) {
-    removeElement(settingsWarning0);
+  if (
+    settingsInputP0.value.length &&
+    settingsInputP1.value.length &&
+    winningScore >= 20 &&
+    winningScore <= 900
+  ) {
     settingsWarning = false;
-    player0Name.textContent = settingsInputP0.value;
   } else {
-    addElement(settingsWarning0);
     settingsWarning = true;
   }
 
-  if (settingsInputP1.value) {
+  if (settingsInputP0.value.length) {
+    removeElement(settingsWarning0);
+    player0Name.textContent = settingsInputP0.value;
+  } else {
+    addElement(settingsWarning0);
+  }
+
+  if (settingsInputP1.value.length) {
     removeElement(settingsWarning1);
-    settingsWarning = false;
     player1Name.textContent = settingsInputP1.value;
   } else {
     addElement(settingsWarning1);
-    settingsWarning = true;
   }
 
   if (winningScore >= 20 && winningScore <= 900) {
     removeElement(settingsWarningScore);
-    settingsWarning = false;
   } else {
     addElement(settingsWarningScore);
-    settingsWarning = true;
   }
 
   actualSettings = {
