@@ -239,6 +239,7 @@ p,
   left: 2.5rem;
   cursor: pointer;
   z-index: 99;
+  padding: 1rem;
 }
 
 .settings-icon-line {

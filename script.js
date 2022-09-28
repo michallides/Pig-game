@@ -520,8 +520,11 @@ rollDiceBtn.addEventListener('click', function () {
 
     if (diceNum !== 1) {
       currentScore += diceNum;
-      document.querySelector(`#current-score-${playerActive}`).textContent =
-        currentScore;
+
+      setTimeout(function () {
+        document.querySelector(`#current-score-${playerActive}`).textContent =
+          currentScore;
+      }, 700);
     } else {
       switchPlayer();
     }
